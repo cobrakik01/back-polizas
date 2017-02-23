@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.PGJ.SistemaPolizas", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.PGJ.SistemaPolizas.Tests", "Com.PGJ.SistemaPolizas.Tests\Com.PGJ.SistemaPolizas.Tests.csproj", "{89796552-B832-4681-9786-DE45C2188564}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.PGJ.SistemaPolizas.Data", "Com.PGJ.SistemaPolizas.Data\Com.PGJ.SistemaPolizas.Data.csproj", "{F8C5F9D2-16DF-4241-8635-7DEC421AC2F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.PGJ.SistemaPolizas.Service", "Com.PGJ.SistemaPolizas.Service\Com.PGJ.SistemaPolizas.Service.csproj", "{0B22BEF5-4027-4C10-BD41-4E8CA0C7DA63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{89796552-B832-4681-9786-DE45C2188564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89796552-B832-4681-9786-DE45C2188564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89796552-B832-4681-9786-DE45C2188564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C5F9D2-16DF-4241-8635-7DEC421AC2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8C5F9D2-16DF-4241-8635-7DEC421AC2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8C5F9D2-16DF-4241-8635-7DEC421AC2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8C5F9D2-16DF-4241-8635-7DEC421AC2F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B22BEF5-4027-4C10-BD41-4E8CA0C7DA63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B22BEF5-4027-4C10-BD41-4E8CA0C7DA63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B22BEF5-4027-4C10-BD41-4E8CA0C7DA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B22BEF5-4027-4C10-BD41-4E8CA0C7DA63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

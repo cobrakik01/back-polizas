@@ -51,10 +51,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Afianzadoras.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Afianzados.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Areas.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Autoridads.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Depositantes.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DetallesUsuarios.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Egresos.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Ingresos.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MinisteriosPublicos.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Polizas.cs">
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\PolizasPGJDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PolizasPGJDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PolizasPGJDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PolizasPGJDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -80,6 +115,13 @@
     <Content Include="Model\PolizasPGJDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PolizasPGJDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>PolizasPGJDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Model\PolizasPGJDataModel.edmx.sql" />
+    <Content Include="Model\PolizasPGJDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PolizasPGJDataModel.edmx</DependentUpon>
+      <LastGenOutput>PolizasPGJDataModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
