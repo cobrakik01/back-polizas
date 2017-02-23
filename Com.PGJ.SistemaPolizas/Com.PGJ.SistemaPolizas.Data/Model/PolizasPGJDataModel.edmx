@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PGJSistemaPolizasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="PGJSistemaPolizasModelStoreContainer">
+    <EntitySet Name="Afianzadoras" EntityType="PGJSistemaPolizasModel.Store.Afianzadoras" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Afianzados" EntityType="PGJSistemaPolizasModel.Store.Afianzados" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Areas" EntityType="PGJSistemaPolizasModel.Store.Areas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Autoridads" EntityType="PGJSistemaPolizasModel.Store.Autoridads" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Depositantes" EntityType="PGJSistemaPolizasModel.Store.Depositantes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DetallesUsuarios" EntityType="PGJSistemaPolizasModel.Store.DetallesUsuarios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Egresos" EntityType="PGJSistemaPolizasModel.Store.Egresos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Ingresos" EntityType="PGJSistemaPolizasModel.Store.Ingresos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MinisteriosPublicos" EntityType="PGJSistemaPolizasModel.Store.MinisteriosPublicos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Polizas" EntityType="PGJSistemaPolizasModel.Store.Polizas" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_AfianzadoraPoliza" Association="PGJSistemaPolizasModel.Store.FK_AfianzadoraPoliza">
+      <End Role="Afianzadoras" EntitySet="Afianzadoras" />
+      <End Role="Polizas" EntitySet="Polizas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AfianzadoDepositante" Association="PGJSistemaPolizasModel.Store.FK_AfianzadoDepositante">
+      <End Role="Afianzados" EntitySet="Afianzados" />
+      <End Role="Depositantes" EntitySet="Depositantes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AfianzadoPoliza" Association="PGJSistemaPolizasModel.Store.FK_AfianzadoPoliza">
+      <End Role="Polizas" EntitySet="Polizas" />
+      <End Role="Afianzados" EntitySet="Afianzados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AreaDetalleUsuario" Association="PGJSistemaPolizasModel.Store.FK_AreaDetalleUsuario">
+      <End Role="Areas" EntitySet="Areas" />
+      <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AutoridadEgreso" Association="PGJSistemaPolizasModel.Store.FK_AutoridadEgreso">
+      <End Role="Autoridads" EntitySet="Autoridads" />
+      <End Role="Egresos" EntitySet="Egresos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AutoridadMinisterioPublico" Association="PGJSistemaPolizasModel.Store.FK_AutoridadMinisterioPublico">
+      <End Role="Autoridads" EntitySet="Autoridads" />
+      <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DepositanteIngreso" Association="PGJSistemaPolizasModel.Store.FK_DepositanteIngreso">
+      <End Role="Depositantes" EntitySet="Depositantes" />
+      <End Role="Ingresos" EntitySet="Ingresos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleUsuarioEgreso" Association="PGJSistemaPolizasModel.Store.FK_DetalleUsuarioEgreso">
+      <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
+      <End Role="Egresos" EntitySet="Egresos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleUsuarioIngreso" Association="PGJSistemaPolizasModel.Store.FK_DetalleUsuarioIngreso">
+      <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
+      <End Role="Ingresos" EntitySet="Ingresos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EgresoMinisterioPublico" Association="PGJSistemaPolizasModel.Store.FK_EgresoMinisterioPublico">
+      <End Role="Egresos" EntitySet="Egresos" />
+      <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PolizaIngreso" Association="PGJSistemaPolizasModel.Store.FK_PolizaIngreso">
+      <End Role="Polizas" EntitySet="Polizas" />
+      <End Role="Ingresos" EntitySet="Ingresos" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Afianzadoras">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Afianzados">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ApellidoPaterno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ApellidoMaterno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FechaDeNacimiento" Type="datetime" Nullable="false" />
+    <Property Name="Poliza_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Areas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Autoridads">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Depositantes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ApellidoMaterno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ApellidoPaterno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AfianzadoId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DetallesUsuarios">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ApellidoMaterno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ApellidoPaterno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FechaDeNacimiento" Type="datetime" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="AreaId" Type="int" Nullable="false" />
+    <Property Name="NumeroDeEmpleado" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Egresos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AutoridadId" Type="int" Nullable="false" />
+    <Property Name="FechaDeEgreso" Type="datetime" Nullable="false" />
+    <Property Name="Cantidad" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="DetalleUsuarioId" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Ingresos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cantidad" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="PolizaId" Type="int" Nullable="false" />
+    <Property Name="FechaDeIngreso" Type="datetime" Nullable="false" />
+    <Property Name="DepositanteId" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DetalleUsuarioId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MinisteriosPublicos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AutoridadId" Type="int" Nullable="true" />
+    <Property Name="EgresoId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Polizas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AveriguacionPrevia" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AfianzadoraId" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FechaDeAlta" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_AfianzadoraPoliza">
+    <End Role="Afianzadoras" Type="PGJSistemaPolizasModel.Store.Afianzadoras" Multiplicity="1" />
+    <End Role="Polizas" Type="PGJSistemaPolizasModel.Store.Polizas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Afianzadoras">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Polizas">
+        <PropertyRef Name="AfianzadoraId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AfianzadoDepositante">
+    <End Role="Afianzados" Type="PGJSistemaPolizasModel.Store.Afianzados" Multiplicity="1" />
+    <End Role="Depositantes" Type="PGJSistemaPolizasModel.Store.Depositantes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Afianzados">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Depositantes">
+        <PropertyRef Name="AfianzadoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AfianzadoPoliza">
+    <End Role="Polizas" Type="PGJSistemaPolizasModel.Store.Polizas" Multiplicity="1" />
+    <End Role="Afianzados" Type="PGJSistemaPolizasModel.Store.Afianzados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Polizas">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Afianzados">
+        <PropertyRef Name="Poliza_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AreaDetalleUsuario">
+    <End Role="Areas" Type="PGJSistemaPolizasModel.Store.Areas" Multiplicity="1" />
+    <End Role="DetallesUsuarios" Type="PGJSistemaPolizasModel.Store.DetallesUsuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Areas">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DetallesUsuarios">
+        <PropertyRef Name="AreaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AutoridadEgreso">
+    <End Role="Autoridads" Type="PGJSistemaPolizasModel.Store.Autoridads" Multiplicity="1" />
+    <End Role="Egresos" Type="PGJSistemaPolizasModel.Store.Egresos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Autoridads">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Egresos">
+        <PropertyRef Name="AutoridadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AutoridadMinisterioPublico">
+    <End Role="Autoridads" Type="PGJSistemaPolizasModel.Store.Autoridads" Multiplicity="0..1" />
+    <End Role="MinisteriosPublicos" Type="PGJSistemaPolizasModel.Store.MinisteriosPublicos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Autoridads">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MinisteriosPublicos">
+        <PropertyRef Name="AutoridadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DepositanteIngreso">
+    <End Role="Depositantes" Type="PGJSistemaPolizasModel.Store.Depositantes" Multiplicity="1" />
+    <End Role="Ingresos" Type="PGJSistemaPolizasModel.Store.Ingresos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Depositantes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ingresos">
+        <PropertyRef Name="DepositanteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleUsuarioEgreso">
+    <End Role="DetallesUsuarios" Type="PGJSistemaPolizasModel.Store.DetallesUsuarios" Multiplicity="1" />
+    <End Role="Egresos" Type="PGJSistemaPolizasModel.Store.Egresos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DetallesUsuarios">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Egresos">
+        <PropertyRef Name="DetalleUsuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleUsuarioIngreso">
+    <End Role="DetallesUsuarios" Type="PGJSistemaPolizasModel.Store.DetallesUsuarios" Multiplicity="1" />
+    <End Role="Ingresos" Type="PGJSistemaPolizasModel.Store.Ingresos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DetallesUsuarios">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ingresos">
+        <PropertyRef Name="DetalleUsuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EgresoMinisterioPublico">
+    <End Role="Egresos" Type="PGJSistemaPolizasModel.Store.Egresos" Multiplicity="0..1" />
+    <End Role="MinisteriosPublicos" Type="PGJSistemaPolizasModel.Store.MinisteriosPublicos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Egresos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MinisteriosPublicos">
+        <PropertyRef Name="EgresoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PolizaIngreso">
+    <End Role="Polizas" Type="PGJSistemaPolizasModel.Store.Polizas" Multiplicity="1" />
+    <End Role="Ingresos" Type="PGJSistemaPolizasModel.Store.Ingresos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Polizas">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ingresos">
+        <PropertyRef Name="PolizaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PGJSistemaPolizasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Afianzadoras">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Polizas" Relationship="Self.FK_AfianzadoraPoliza" FromRole="Afianzadoras" ToRole="Polizas" />
+        </EntityType>
+        <EntityType Name="Afianzados">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Poliza_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depositantes" Relationship="Self.FK_AfianzadoDepositante" FromRole="Afianzados" ToRole="Depositantes" />
+          <NavigationProperty Name="Polizas" Relationship="Self.FK_AfianzadoPoliza" FromRole="Afianzados" ToRole="Polizas" />
+        </EntityType>
+        <EntityType Name="Areas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DetallesUsuarios" Relationship="Self.FK_AreaDetalleUsuario" FromRole="Areas" ToRole="DetallesUsuarios" />
+        </EntityType>
+        <EntityType Name="Autoridads">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Egresos" Relationship="Self.FK_AutoridadEgreso" FromRole="Autoridads" ToRole="Egresos" />
+          <NavigationProperty Name="MinisteriosPublicos" Relationship="Self.FK_AutoridadMinisterioPublico" FromRole="Autoridads" ToRole="MinisteriosPublicos" />
+        </EntityType>
+        <EntityType Name="Depositantes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AfianzadoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Afianzados" Relationship="Self.FK_AfianzadoDepositante" FromRole="Depositantes" ToRole="Afianzados" />
+          <NavigationProperty Name="Ingresos" Relationship="Self.FK_DepositanteIngreso" FromRole="Depositantes" ToRole="Ingresos" />
+        </EntityType>
+        <EntityType Name="DetallesUsuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AreaId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroDeEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Areas" Relationship="Self.FK_AreaDetalleUsuario" FromRole="DetallesUsuarios" ToRole="Areas" />
+          <NavigationProperty Name="Egresos" Relationship="Self.FK_DetalleUsuarioEgreso" FromRole="DetallesUsuarios" ToRole="Egresos" />
+          <NavigationProperty Name="Ingresos" Relationship="Self.FK_DetalleUsuarioIngreso" FromRole="DetallesUsuarios" ToRole="Ingresos" />
+        </EntityType>
+        <EntityType Name="Egresos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AutoridadId" Type="Int32" Nullable="false" />
+          <Property Name="FechaDeEgreso" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DetalleUsuarioId" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Autoridads" Relationship="Self.FK_AutoridadEgreso" FromRole="Egresos" ToRole="Autoridads" />
+          <NavigationProperty Name="DetallesUsuarios" Relationship="Self.FK_DetalleUsuarioEgreso" FromRole="Egresos" ToRole="DetallesUsuarios" />
+          <NavigationProperty Name="MinisteriosPublicos" Relationship="Self.FK_EgresoMinisterioPublico" FromRole="Egresos" ToRole="MinisteriosPublicos" />
+        </EntityType>
+        <EntityType Name="Ingresos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PolizaId" Type="Int32" Nullable="false" />
+          <Property Name="FechaDeIngreso" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DepositanteId" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DetalleUsuarioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depositantes" Relationship="Self.FK_DepositanteIngreso" FromRole="Ingresos" ToRole="Depositantes" />
+          <NavigationProperty Name="DetallesUsuarios" Relationship="Self.FK_DetalleUsuarioIngreso" FromRole="Ingresos" ToRole="DetallesUsuarios" />
+          <NavigationProperty Name="Polizas" Relationship="Self.FK_PolizaIngreso" FromRole="Ingresos" ToRole="Polizas" />
+        </EntityType>
+        <EntityType Name="MinisteriosPublicos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AutoridadId" Type="Int32" />
+          <Property Name="EgresoId" Type="Int32" />
+          <NavigationProperty Name="Autoridads" Relationship="Self.FK_AutoridadMinisterioPublico" FromRole="MinisteriosPublicos" ToRole="Autoridads" />
+          <NavigationProperty Name="Egresos" Relationship="Self.FK_EgresoMinisterioPublico" FromRole="MinisteriosPublicos" ToRole="Egresos" />
+        </EntityType>
+        <EntityType Name="Polizas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AveriguacionPrevia" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AfianzadoraId" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaDeAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Afianzadoras" Relationship="Self.FK_AfianzadoraPoliza" FromRole="Polizas" ToRole="Afianzadoras" />
+          <NavigationProperty Name="Afianzados" Relationship="Self.FK_AfianzadoPoliza" FromRole="Polizas" ToRole="Afianzados" />
+          <NavigationProperty Name="Ingresos" Relationship="Self.FK_PolizaIngreso" FromRole="Polizas" ToRole="Ingresos" />
+        </EntityType>
+        <Association Name="FK_AfianzadoraPoliza">
+          <End Role="Afianzadoras" Type="Self.Afianzadoras" Multiplicity="1" />
+          <End Role="Polizas" Type="Self.Polizas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Afianzadoras">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Polizas">
+              <PropertyRef Name="AfianzadoraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AfianzadoDepositante">
+          <End Role="Afianzados" Type="Self.Afianzados" Multiplicity="1" />
+          <End Role="Depositantes" Type="Self.Depositantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Afianzados">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Depositantes">
+              <PropertyRef Name="AfianzadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AfianzadoPoliza">
+          <End Role="Polizas" Type="Self.Polizas" Multiplicity="1" />
+          <End Role="Afianzados" Type="Self.Afianzados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polizas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Afianzados">
+              <PropertyRef Name="Poliza_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AreaDetalleUsuario">
+          <End Role="Areas" Type="Self.Areas" Multiplicity="1" />
+          <End Role="DetallesUsuarios" Type="Self.DetallesUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Areas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallesUsuarios">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AutoridadEgreso">
+          <End Role="Autoridads" Type="Self.Autoridads" Multiplicity="1" />
+          <End Role="Egresos" Type="Self.Egresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autoridads">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Egresos">
+              <PropertyRef Name="AutoridadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AutoridadMinisterioPublico">
+          <End Role="Autoridads" Type="Self.Autoridads" Multiplicity="0..1" />
+          <End Role="MinisteriosPublicos" Type="Self.MinisteriosPublicos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autoridads">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MinisteriosPublicos">
+              <PropertyRef Name="AutoridadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepositanteIngreso">
+          <End Role="Depositantes" Type="Self.Depositantes" Multiplicity="1" />
+          <End Role="Ingresos" Type="Self.Ingresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depositantes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingresos">
+              <PropertyRef Name="DepositanteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleUsuarioEgreso">
+          <End Role="DetallesUsuarios" Type="Self.DetallesUsuarios" Multiplicity="1" />
+          <End Role="Egresos" Type="Self.Egresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DetallesUsuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Egresos">
+              <PropertyRef Name="DetalleUsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleUsuarioIngreso">
+          <End Role="DetallesUsuarios" Type="Self.DetallesUsuarios" Multiplicity="1" />
+          <End Role="Ingresos" Type="Self.Ingresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DetallesUsuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingresos">
+              <PropertyRef Name="DetalleUsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EgresoMinisterioPublico">
+          <End Role="Egresos" Type="Self.Egresos" Multiplicity="0..1" />
+          <End Role="MinisteriosPublicos" Type="Self.MinisteriosPublicos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Egresos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MinisteriosPublicos">
+              <PropertyRef Name="EgresoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PolizaIngreso">
+          <End Role="Polizas" Type="Self.Polizas" Multiplicity="1" />
+          <End Role="Ingresos" Type="Self.Ingresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polizas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingresos">
+              <PropertyRef Name="PolizaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PGJSistemaPolizasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Afianzadoras" EntityType="Self.Afianzadoras" />
+          <EntitySet Name="Afianzados" EntityType="Self.Afianzados" />
+          <EntitySet Name="Areas" EntityType="Self.Areas" />
+          <EntitySet Name="Autoridads" EntityType="Self.Autoridads" />
+          <EntitySet Name="Depositantes" EntityType="Self.Depositantes" />
+          <EntitySet Name="DetallesUsuarios" EntityType="Self.DetallesUsuarios" />
+          <EntitySet Name="Egresos" EntityType="Self.Egresos" />
+          <EntitySet Name="Ingresos" EntityType="Self.Ingresos" />
+          <EntitySet Name="MinisteriosPublicos" EntityType="Self.MinisteriosPublicos" />
+          <EntitySet Name="Polizas" EntityType="Self.Polizas" />
+          <AssociationSet Name="FK_AfianzadoraPoliza" Association="Self.FK_AfianzadoraPoliza">
+            <End Role="Afianzadoras" EntitySet="Afianzadoras" />
+            <End Role="Polizas" EntitySet="Polizas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AfianzadoDepositante" Association="Self.FK_AfianzadoDepositante">
+            <End Role="Afianzados" EntitySet="Afianzados" />
+            <End Role="Depositantes" EntitySet="Depositantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AfianzadoPoliza" Association="Self.FK_AfianzadoPoliza">
+            <End Role="Polizas" EntitySet="Polizas" />
+            <End Role="Afianzados" EntitySet="Afianzados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AreaDetalleUsuario" Association="Self.FK_AreaDetalleUsuario">
+            <End Role="Areas" EntitySet="Areas" />
+            <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AutoridadEgreso" Association="Self.FK_AutoridadEgreso">
+            <End Role="Autoridads" EntitySet="Autoridads" />
+            <End Role="Egresos" EntitySet="Egresos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AutoridadMinisterioPublico" Association="Self.FK_AutoridadMinisterioPublico">
+            <End Role="Autoridads" EntitySet="Autoridads" />
+            <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepositanteIngreso" Association="Self.FK_DepositanteIngreso">
+            <End Role="Depositantes" EntitySet="Depositantes" />
+            <End Role="Ingresos" EntitySet="Ingresos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleUsuarioEgreso" Association="Self.FK_DetalleUsuarioEgreso">
+            <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
+            <End Role="Egresos" EntitySet="Egresos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleUsuarioIngreso" Association="Self.FK_DetalleUsuarioIngreso">
+            <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
+            <End Role="Ingresos" EntitySet="Ingresos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EgresoMinisterioPublico" Association="Self.FK_EgresoMinisterioPublico">
+            <End Role="Egresos" EntitySet="Egresos" />
+            <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PolizaIngreso" Association="Self.FK_PolizaIngreso">
+            <End Role="Polizas" EntitySet="Polizas" />
+            <End Role="Ingresos" EntitySet="Ingresos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PGJSistemaPolizasModelStoreContainer" CdmEntityContainer="PGJSistemaPolizasEntities">
+    <EntitySetMapping Name="Afianzadoras">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Afianzadoras)">
+        <MappingFragment StoreEntitySet="Afianzadoras">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Afianzados">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Afianzados)">
+        <MappingFragment StoreEntitySet="Afianzados">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+          <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+          <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+          <ScalarProperty Name="Poliza_Id" ColumnName="Poliza_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Areas">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Areas)">
+        <MappingFragment StoreEntitySet="Areas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Autoridads">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Autoridads)">
+        <MappingFragment StoreEntitySet="Autoridads">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Depositantes">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Depositantes)">
+        <MappingFragment StoreEntitySet="Depositantes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+          <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+          <ScalarProperty Name="AfianzadoId" ColumnName="AfianzadoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetallesUsuarios">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.DetallesUsuarios)">
+        <MappingFragment StoreEntitySet="DetallesUsuarios">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+          <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+          <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+          <ScalarProperty Name="NumeroDeEmpleado" ColumnName="NumeroDeEmpleado" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Egresos">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Egresos)">
+        <MappingFragment StoreEntitySet="Egresos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AutoridadId" ColumnName="AutoridadId" />
+          <ScalarProperty Name="FechaDeEgreso" ColumnName="FechaDeEgreso" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="DetalleUsuarioId" ColumnName="DetalleUsuarioId" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ingresos">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Ingresos)">
+        <MappingFragment StoreEntitySet="Ingresos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="PolizaId" ColumnName="PolizaId" />
+          <ScalarProperty Name="FechaDeIngreso" ColumnName="FechaDeIngreso" />
+          <ScalarProperty Name="DepositanteId" ColumnName="DepositanteId" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="DetalleUsuarioId" ColumnName="DetalleUsuarioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MinisteriosPublicos">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.MinisteriosPublicos)">
+        <MappingFragment StoreEntitySet="MinisteriosPublicos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="AutoridadId" ColumnName="AutoridadId" />
+          <ScalarProperty Name="EgresoId" ColumnName="EgresoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Polizas">
+      <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Polizas)">
+        <MappingFragment StoreEntitySet="Polizas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AveriguacionPrevia" ColumnName="AveriguacionPrevia" />
+          <ScalarProperty Name="AfianzadoraId" ColumnName="AfianzadoraId" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="FechaDeAlta" ColumnName="FechaDeAlta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
