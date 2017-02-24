@@ -35,12 +35,5 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         public void Delete(int id)
         {
         }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IEnumerable<string> Login(string user, string password)
-        {
-            return new string[] { "Hola" };
-        }
     }
 }

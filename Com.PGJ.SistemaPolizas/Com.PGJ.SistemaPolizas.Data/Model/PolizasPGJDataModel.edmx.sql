@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/23/2017 11:09:16
+-- Date Created: 02/24/2017 13:18:07
 -- Generated from EDMX file: C:\GitRepos\Federico\PGJ\back-polizas\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Data\Model\PolizasPGJDataModel.edmx
 -- --------------------------------------------------
 
@@ -17,14 +17,14 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_AfianzadoraPoliza]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Polizas] DROP CONSTRAINT [FK_AfianzadoraPoliza];
+GO
 IF OBJECT_ID(N'[dbo].[FK_AfianzadoDepositante]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Depositantes] DROP CONSTRAINT [FK_AfianzadoDepositante];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AfianzadoPoliza]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Afianzados] DROP CONSTRAINT [FK_AfianzadoPoliza];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AfianzadoraPoliza]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Polizas] DROP CONSTRAINT [FK_AfianzadoraPoliza];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AreaDetalleUsuario]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DetallesUsuarios] DROP CONSTRAINT [FK_AreaDetalleUsuario];
