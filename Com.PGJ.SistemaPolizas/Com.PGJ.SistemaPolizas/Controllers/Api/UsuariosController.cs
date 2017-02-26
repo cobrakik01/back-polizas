@@ -5,35 +5,58 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
+using Microsoft.AspNet.Identity.Owin;
+
 namespace Com.PGJ.SistemaPolizas.Controllers.Api
 {
+    [Authorize]
+    [RoutePrefix("api/users")]
     public class UsuariosController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        public UsuariosController()
         {
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public UsuariosController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
+            UserManager = userManager;
+            SignInManager = signInManager;
         }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        public ApplicationUserManager UserManager
         {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? Request.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        [HttpGet]
+        [Route("roles")]
+        public IHttpActionResult UserInRoles(string UserName)
+        {
+            var roles = System.Web.Security.Roles.GetRolesForUser(UserName);
+            return Ok(roles);
         }
     }
 }
