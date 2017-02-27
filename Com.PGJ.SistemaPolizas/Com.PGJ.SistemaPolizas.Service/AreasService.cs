@@ -18,5 +18,22 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
             return area;
         }
+
+        public IEnumerable<Areas> GetAllEnumerable()
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                return db.Areas.AsEnumerable();
+            }
+        }
+
+        public List<Areas> GetAll()
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                var list = db.Areas.ToList();
+                return list;
+            }
+        }
     }
 }

@@ -110,7 +110,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
                     detalles = new
                     {
                         Id = userDetails.Id,
-                        UserId = userDetails.UserId,
+                        UserId = userDetails.AuthUserId,
                         Nombre = userDetails.Nombre,
                         ApellidoPaterno = userDetails.ApellidoPaterno,
                         ApellidoMaterno = userDetails.ApellidoMaterno,
