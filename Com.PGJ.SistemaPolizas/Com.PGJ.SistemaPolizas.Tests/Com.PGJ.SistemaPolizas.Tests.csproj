@@ -81,6 +81,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TinyMapper, Version=2.0.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TinyMapper.2.0.8\lib\net45\TinyMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,9 +97,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.csproj">
+    <ProjectReference Include="..\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Web.csproj">
       <Project>{4F1D07EE-8462-4258-84FE-310E18C773C7}</Project>
-      <Name>Com.PGJ.SistemaPolizas</Name>
+      <Name>Com.PGJ.SistemaPolizas.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

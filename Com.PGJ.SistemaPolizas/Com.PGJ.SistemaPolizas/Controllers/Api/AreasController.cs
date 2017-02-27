@@ -1,10 +1,13 @@
 ﻿using Com.PGJ.SistemaPolizas.Data.Model;
+using Com.PGJ.SistemaPolizas.Models;
 using Com.PGJ.SistemaPolizas.Service;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Com.PGJ.SistemaPolizas.Controllers.Api
@@ -19,30 +22,49 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         {
             service = new AreasService();
         }
+
         // GET api/<controller>
         [Route("all")]
         [HttpGet]
-        public List<Areas> GetAll()
+        public async Task<List<Areas>> GetAll()
         {
-            return service.GetAll();
+            List<Areas> areas = await service.GetAllAsync();
+            return areas;
         }
 
         [HttpGet]
-        public IHttpActionResult Get(int page = 1, int count = 10, string sorting = "asc", string filter = "")
+        public async Task<AreasSearchViewModel> Get(int page = 1, int count = 10, string sorting = "asc", string filter = "")
         {
-            return Ok();
-            //return Ok(new { result = data, total = cnt });
+            int total;
+            AreasSearchViewModel response = new AreasSearchViewModel();
+            response.result = await service.FindByFilterAsync(out total, page, count, sorting, filter);
+            response.total = total;
+            return response;
+        }
+
+        // POST api/<controller>
+        [Route("new")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody]string nombre)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Areas area = new Areas { Nombre = nombre };
+                var result = db.Areas.Where(e => e.Nombre.Contains(area.Nombre)).FirstOrDefault();
+                if (result == null)
+                {
+                    db.Areas.Add(area);
+                    db.SaveChanges();
+                    return Json(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El Area {0} se dio de alta correctamente.", area.Nombre) } });
+                }
+                return Json(new { Message = new { Type = "warning", Title = "Alta", Message = string.Format("El Area {0} ya se encuentra registrada.", area.Nombre) } });
+            }
         }
 
         // GET api/<controller>/5
         public string Get(int id)
         {
             return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
         }
 
         // PUT api/<controller>/5
