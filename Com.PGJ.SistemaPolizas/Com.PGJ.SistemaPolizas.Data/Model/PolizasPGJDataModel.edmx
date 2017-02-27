@@ -116,7 +116,7 @@
     <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
     <Property Name="AreaId" Type="int" Nullable="false" />
     <Property Name="NumeroDeEmpleado" Type="int" Nullable="false" />
-    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="AuthUserId" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Egresos">
     <Key>
@@ -359,10 +359,10 @@
           <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="AreaId" Type="Int32" Nullable="false" />
           <Property Name="NumeroDeEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Areas" Relationship="Self.FK_AreaDetalleUsuario" FromRole="DetallesUsuarios" ToRole="Areas" />
           <NavigationProperty Name="Egresos" Relationship="Self.FK_DetalleUsuarioEgreso" FromRole="DetallesUsuarios" ToRole="Egresos" />
           <NavigationProperty Name="Ingresos" Relationship="Self.FK_DetalleUsuarioIngreso" FromRole="DetallesUsuarios" ToRole="Ingresos" />
+          <Property Name="AuthUserId" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Egresos">
           <Key>
@@ -670,7 +670,7 @@
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
           <ScalarProperty Name="AreaId" ColumnName="AreaId" />
           <ScalarProperty Name="NumeroDeEmpleado" ColumnName="NumeroDeEmpleado" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AuthUserId" ColumnName="AuthUserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

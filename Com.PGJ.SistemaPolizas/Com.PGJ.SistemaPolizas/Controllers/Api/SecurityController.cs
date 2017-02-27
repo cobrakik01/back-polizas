@@ -14,6 +14,7 @@ using Com.PGJ.SistemaPolizas.Models;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using Microsoft.AspNet.Identity;
+using Com.PGJ.SistemaPolizas.Service;
 
 namespace Com.PGJ.SistemaPolizas.Controllers.Api
 {
@@ -94,13 +95,40 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route("user/details")]
         [HttpGet]
-        public IHttpActionResult UserDetails(int userId)
+        public IHttpActionResult UserDetails()
         {
+            UsuariosService usuarioService = new UsuariosService();
+            AreasService areasService = new AreasService();
 
-            return Ok(new
+            Data.Model.DetallesUsuarios userDetails = usuarioService.FindById(User.Identity.GetUserId());
+            Data.Model.Areas area = null;
+            if (userDetails != null)
             {
-                Login = User.Identity.IsAuthenticated
-            });
+                area = areasService.FindById(userDetails.AreaId);
+                var responseModel = new
+                {
+                    detalles = new
+                    {
+                        Id = userDetails.Id,
+                        UserId = userDetails.UserId,
+                        Nombre = userDetails.Nombre,
+                        ApellidoPaterno = userDetails.ApellidoPaterno,
+                        ApellidoMaterno = userDetails.ApellidoMaterno,
+                        NumeroDeEmpleado = userDetails.NumeroDeEmpleado,
+                        FechaDeNacimiento = userDetails.FechaDeNacimiento,
+                        CreatedAt = userDetails.CreatedAt,
+                        UpdatedAt = userDetails.UpdatedAt
+                    },
+                    area = new
+                    {
+                        Id = area != null ? area.Id : 0,
+                        Nombre = area != null ? area.Nombre : ""
+                    }
+                };
+                return Ok(responseModel);
+            }
+            //return StatusCode(HttpStatusCode.BadRequest);
+            return Ok();
         }
     }
 }

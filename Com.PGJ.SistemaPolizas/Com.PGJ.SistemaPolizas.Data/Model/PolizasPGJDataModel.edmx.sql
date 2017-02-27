@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/24/2017 13:18:07
+-- Date Created: 02/26/2017 21:04:53
 -- Generated from EDMX file: C:\GitRepos\Federico\PGJ\back-polizas\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Data\Model\PolizasPGJDataModel.edmx
 -- --------------------------------------------------
 
@@ -143,7 +143,7 @@ CREATE TABLE [dbo].[DetallesUsuarios] (
     [UpdatedAt] datetime  NOT NULL,
     [AreaId] int  NOT NULL,
     [NumeroDeEmpleado] int  NOT NULL,
-    [UserId] int  NOT NULL
+    [AuthUserId] nvarchar(max)  NOT NULL
 );
 GO
 

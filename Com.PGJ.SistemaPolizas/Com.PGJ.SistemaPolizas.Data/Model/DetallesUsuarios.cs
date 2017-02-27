@@ -30,7 +30,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         public System.DateTime UpdatedAt { get; set; }
         public int AreaId { get; set; }
         public int NumeroDeEmpleado { get; set; }
-        public int UserId { get; set; }
+        public string AuthUserId { get; set; }
     
         public virtual Areas Areas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

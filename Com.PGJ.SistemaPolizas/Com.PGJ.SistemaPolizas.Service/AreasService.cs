@@ -7,16 +7,16 @@ using Com.PGJ.SistemaPolizas.Data.Model;
 
 namespace Com.PGJ.SistemaPolizas.Service
 {
-    public class UsuariosService
+    public class AreasService
     {
-        public DetallesUsuarios FindById(string strId)
+        public Areas FindById(int areaId)
         {
-            DetallesUsuarios detalles = null;
+            Areas area = null;
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                detalles = db.DetallesUsuarios.Where(e => e.AuthUserId == strId).FirstOrDefault();
+                area = db.Areas.Where(e => e.Id == areaId).FirstOrDefault();
             }
-            return detalles;
+            return area;
         }
     }
 }
