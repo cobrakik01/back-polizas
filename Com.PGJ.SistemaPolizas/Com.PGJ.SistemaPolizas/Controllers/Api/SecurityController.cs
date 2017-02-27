@@ -67,45 +67,8 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             }
         }
 
-        [AllowAnonymous]
-        [Route("login")]
-        [HttpPost]
-        public async Task<IHttpActionResult> Login(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.Unauthorized);
-            }
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    ApplicationUser aUser = await UserManager.FindByEmailAsync(model.Email);
-                    return Ok(new
-                    {
-                        UserId = aUser.Id
-                    });
-                case SignInStatus.LockedOut:
-                    return Ok("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return Ok();
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return Ok(model);
-            }
-        }
-
-        [HttpPost]
-        [Route("logout")]
-        public IHttpActionResult Logout()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return Ok(new { Logout = User.Identity.IsAuthenticated });
-        }
-
         [Route("user/info")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IHttpActionResult> UserInfo()
         {
             string uname = User.Identity.Name;
@@ -116,6 +79,27 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             {
                 UserId = aUser.Id,
                 UserName = aUser.UserName
+            });
+        }
+
+        [Route("islogin")]
+        [HttpGet]
+        public IHttpActionResult IsLogin()
+        {
+            return Ok(new
+            {
+                Login = User.Identity.IsAuthenticated
+            });
+        }
+
+        [Route("user/details")]
+        [HttpGet]
+        public IHttpActionResult UserDetails(int userId)
+        {
+
+            return Ok(new
+            {
+                Login = User.Identity.IsAuthenticated
             });
         }
     }

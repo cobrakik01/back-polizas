@@ -190,11 +190,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\IngresosController.cs" />
     <Compile Include="Controllers\Api\SecurityController.cs" />
     <Compile Include="Controllers\Api\UsuariosController.cs" />
     <Compile Include="Controllers\Web\AccountController.cs" />
     <Compile Include="Controllers\Web\HomeController.cs" />
     <Compile Include="Controllers\Web\ManageController.cs" />
+    <Compile Include="Filters\RequireHttpsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -202,6 +204,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +291,10 @@
     <ProjectReference Include="..\Com.PGJ.SistemaPolizas.Data\Com.PGJ.SistemaPolizas.Data.csproj">
       <Project>{f8c5f9d2-16df-4241-8635-7dec421ac2f7}</Project>
       <Name>Com.PGJ.SistemaPolizas.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.PGJ.SistemaPolizas.Service\Com.PGJ.SistemaPolizas.Service.csproj">
+      <Project>{0B22BEF5-4027-4C10-BD41-4E8CA0C7DA63}</Project>
+      <Name>Com.PGJ.SistemaPolizas.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

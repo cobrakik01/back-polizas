@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Owin.Security.OAuth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -11,11 +12,14 @@ namespace Com.PGJ.SistemaPolizas
         public static void Register(HttpConfiguration config)
         {
             // Enable Cors
-            // var cors = new EnableCorsAttribute("localhost:*", "*", "*");
+            //var cors = new EnableCorsAttribute("localhost:*", "*", "*");
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
             // Web API configuration and services
+            // Configure Web API to use only bearer token authentication.
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -25,6 +29,9 @@ namespace Com.PGJ.SistemaPolizas
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // Enforce HTTPS
+            //config.Filters.Add(new Filters.RequireHttpsAttribute());
         }
     }
 }
