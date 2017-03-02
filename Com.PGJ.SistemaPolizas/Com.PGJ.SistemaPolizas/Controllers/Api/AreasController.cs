@@ -23,7 +23,6 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             service = new AreasService();
         }
 
-        // GET api/<controller>
         [Route("all")]
         [HttpGet]
         public async Task<List<AreaDto>> GetAll()
@@ -43,10 +42,8 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             return response;
         }
 
-        // POST api/<controller>
         [Route()]
         [HttpPost]
-        // public IHttpActionResult Post([FromBody]string nombre)
         public IHttpActionResult Post(AreaDto dto)
         {
             try
@@ -62,7 +59,6 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             return StatusCode(HttpStatusCode.NotFound);
         }
 
-        // GET api/<controller>/5
         [Route()]
         [HttpPatch]
         public IHttpActionResult Patch(AreaDto area)
@@ -75,16 +71,27 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = new { Type = "warning", Title = "Alta", Message = string.Format(ex.Message) } });
+                return Ok(new { Message = new { Type = "warning", Title = "", Message = string.Format(ex.Message) } });
             }
             return StatusCode(HttpStatusCode.NotFound);
         }
 
+        // DELETE api/areas/5
         [Route("{id}")]
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-            return Ok("Se eliminara");
+            try
+            {
+                if (service.Delete(id))
+                    return Json(new { Message = new { Type = "success", Title = "Eliminar", Message = string.Format("El Área fue eliminada correctamente.") } });
+                else
+                    return Json(new { Message = new { Type = "success", Title = "Eliminar", Message = string.Format("El Área pudo ser eliminada.") } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Message = new { Type = "warning", Title = "", Message = ex.Message } });
+            }
         }
     }
 }

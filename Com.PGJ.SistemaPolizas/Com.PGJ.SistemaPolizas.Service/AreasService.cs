@@ -97,6 +97,19 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
+        public bool Delete(int id)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Areas area = db.Areas.Where(e => e.Id == id).FirstOrDefault();
+                if (area == null)
+                    return false;
+                db.Areas.Remove(area);
+                int n = db.SaveChanges();
+                return n > 0;
+            }
+        }
+
         public List<AreaDto> FindByFilter(string sorting = "asc", string filter = "")
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
