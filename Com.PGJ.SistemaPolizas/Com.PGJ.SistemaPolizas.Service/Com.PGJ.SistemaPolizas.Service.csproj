@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AreasService.cs" />
     <Compile Include="Dto\AreaDto.cs" />
+    <Compile Include="Dto\DetalleUsuarioDto.cs" />
     <Compile Include="IngresosService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuariosService.cs" />

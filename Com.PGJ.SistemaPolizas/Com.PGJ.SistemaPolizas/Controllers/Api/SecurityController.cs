@@ -128,8 +128,46 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
                 };
                 return Ok(responseModel);
             }
-            //return StatusCode(HttpStatusCode.BadRequest);
             return Ok();
         }
+
+        [Route("user/update-details")]
+        [HttpPost]
+        public IHttpActionResult UpdateUserDetails(UserSecurityModel model)
+        {
+            UsuariosService service = new UsuariosService();
+            DetalleUsuarioDto detalles = model.detalles;
+            AreaDto area = model.area;
+            detalles.AreaId = area.Id;
+            try
+            {
+                if (service.UpdateOrSave(User.Identity.GetUserId(), detalles))
+                    return Json(new { Message = new { Type = "success", Title = "Correcto!", Message = "El perfil se actualizo correctamente." } });
+                else
+                    return Json(new { Message = new { Type = "warning", Title = "Cuidado!", Message = "no fue posible actualizar los detalles del usuario." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Message = new { Type = "warning", Title = "", Message = ex.Message } });
+            }
+        }
+
+        [Route("user/change-password")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = new { Type = "success", Title = "Correcto!", Message = "El password se actualizo correctamente." } });
+            }
+            return Ok(new { Message = new { Type = "warning", Title = "Cuidado!", Message = "No fue posible actualizar el password, por favor verifique su password actual." } });
+        }
+    }
+
+    public class UserSecurityModel
+    {
+        public DetalleUsuarioDto detalles { get; set; }
+        public AreaDto area { get; set; }
     }
 }
