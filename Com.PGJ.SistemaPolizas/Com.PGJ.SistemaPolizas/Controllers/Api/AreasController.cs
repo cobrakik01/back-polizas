@@ -1,6 +1,6 @@
-﻿using Com.PGJ.SistemaPolizas.Data.Model;
-using Com.PGJ.SistemaPolizas.Models;
+﻿using Com.PGJ.SistemaPolizas.Models;
 using Com.PGJ.SistemaPolizas.Service;
+using Com.PGJ.SistemaPolizas.Service.Dto;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -26,55 +26,65 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         // GET api/<controller>
         [Route("all")]
         [HttpGet]
-        public async Task<List<Areas>> GetAll()
+        public async Task<List<AreaDto>> GetAll()
         {
-            List<Areas> areas = await service.GetAllAsync();
+            List<AreaDto> areas = await service.GetAllAsync();
             return areas;
         }
 
+        [Route()]
         [HttpGet]
         public async Task<AreasSearchViewModel> Get(int page = 1, int count = 10, string sorting = "asc", string filter = "")
         {
-            int total;
             AreasSearchViewModel response = new AreasSearchViewModel();
-            response.result = await service.FindByFilterAsync(out total, page, count, sorting, filter);
-            response.total = total;
+            List<AreaDto> list = await service.FindByFilterAsync(sorting, filter);
+            response.total = list.Count();
+            response.result = list.ToPagedList(page, count);
             return response;
         }
 
         // POST api/<controller>
-        [Route("new")]
+        [Route()]
         [HttpPost]
-        public IHttpActionResult Post([FromBody]string nombre)
+        // public IHttpActionResult Post([FromBody]string nombre)
+        public IHttpActionResult Post(AreaDto dto)
         {
-            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            try
             {
-                Areas area = new Areas { Nombre = nombre };
-                var result = db.Areas.Where(e => e.Nombre.Contains(area.Nombre)).FirstOrDefault();
-                if (result == null)
-                {
-                    db.Areas.Add(area);
-                    db.SaveChanges();
-                    return Json(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El Area {0} se dio de alta correctamente.", area.Nombre) } });
-                }
-                return Json(new { Message = new { Type = "warning", Title = "Alta", Message = string.Format("El Area {0} ya se encuentra registrada.", area.Nombre) } });
+                AreaDto area = service.Save(dto.Nombre);
+                if (area != null)
+                    return Ok(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El Area {0} se dio de alta correctamente.", area.Nombre) } });
             }
+            catch (Exception ex)
+            {
+                return Ok(new { Message = new { Type = "warning", Title = "Alta", Message = string.Format(ex.Message) } });
+            }
+            return StatusCode(HttpStatusCode.NotFound);
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        [Route()]
+        [HttpPatch]
+        public IHttpActionResult Patch(AreaDto area)
         {
-            return "value";
+            try
+            {
+                AreaDto dto = service.Update(area);
+                if (dto != null)
+                    return Json(new { Message = new { Type = "success", Title = "Editar", Message = string.Format("El Área se actualizo correctamente.") } });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Message = new { Type = "warning", Title = "Alta", Message = string.Format(ex.Message) } });
+            }
+            return StatusCode(HttpStatusCode.NotFound);
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        [Route("{id}")]
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
         {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            return Ok("Se eliminara");
         }
     }
 }

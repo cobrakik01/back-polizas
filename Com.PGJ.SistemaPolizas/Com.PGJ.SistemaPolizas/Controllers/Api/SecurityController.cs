@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using Microsoft.AspNet.Identity;
 using Com.PGJ.SistemaPolizas.Service;
+using Com.PGJ.SistemaPolizas.Service.Dto;
 
 namespace Com.PGJ.SistemaPolizas.Controllers.Api
 {
@@ -101,7 +102,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             AreasService areasService = new AreasService();
 
             Data.Model.DetallesUsuarios userDetails = usuarioService.FindById(User.Identity.GetUserId());
-            Data.Model.Areas area = null;
+            AreaDto area = null;
             if (userDetails != null)
             {
                 area = areasService.FindById(userDetails.AreaId);

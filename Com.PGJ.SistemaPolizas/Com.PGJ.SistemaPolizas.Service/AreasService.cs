@@ -3,57 +3,101 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Com.PGJ.SistemaPolizas.Service.Dto;
 using Com.PGJ.SistemaPolizas.Data.Model;
-using PagedList;
 
 namespace Com.PGJ.SistemaPolizas.Service
 {
     public class AreasService
     {
-        public Areas FindById(int areaId)
+        public AreaDto FindById(int areaId)
         {
-            Areas area = null;
+            AreaDto area = null;
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                area = db.Areas.Where(e => e.Id == areaId).FirstOrDefault();
+                Areas result = db.Areas.Where(e => e.Id == areaId).FirstOrDefault();
+                area = AreaDto.ToMap(result);
             }
             return area;
         }
 
-        public IEnumerable<Areas> GetAllEnumerable()
+        public IEnumerable<AreaDto> GetAllEnumerable()
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                return db.Areas.AsEnumerable();
+                return AreaDto.ToMap(db.Areas.ToList());
             }
         }
 
-        public Task<List<Areas>> GetAllAsync()
+        public Task<List<AreaDto>> GetAllAsync()
         {
-            List<Areas> list = GetAll();
+            List<AreaDto> list = GetAll();
             return Task.FromResult(list);
         }
 
-        public List<Areas> GetAll()
+        public List<AreaDto> GetAll()
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                var list = db.Areas.ToList().Select(e => new
-                Areas
-                {
-                    Id = e.Id,
-                    Nombre = e.Nombre
-                }).ToList();
-                return list;
+                List<Areas> listModel = db.Areas.ToList();
+                return AreaDto.ToMap(listModel);
             }
         }
 
-        public Task<IPagedList<Areas>> FindByFilterAsync(out int total, int page, int count, string sorting, string filter)
+        public Task<List<AreaDto>> FindByFilterAsync(string sorting, string filter)
         {
-            return Task.FromResult(FindByFilter(out total, page, count, sorting, filter));
+            return Task.FromResult(FindByFilter(sorting, filter));
         }
 
-        public IPagedList<Areas> FindByFilter(out int total, int page = 1, int count = 10, string sorting = "asc", string filter = "")
+        public AreaDto Save(string nombre)
+        {
+            AreaDto dtoResult = null;
+            if (!exists(nombre))
+            {
+                dtoResult = _Save(nombre);
+            }
+            return dtoResult;
+        }
+
+        private AreaDto _Save(string nombre)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Areas model = new Areas();
+                model.Nombre = nombre;
+                db.Areas.Add(model);
+                int n = db.SaveChanges();
+                if (n > 0)
+                    return AreaDto.ToMap(model);
+                else
+                    return null;
+            }
+        }
+
+        private bool exists(string nombre)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Areas aexists = db.Areas.Where(e => e.Nombre.Contains(nombre)).FirstOrDefault();
+                return aexists != null;
+            }
+        }
+
+        public AreaDto Update(AreaDto area)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Areas model = AreaDto.ToUnMap(area);
+                db.Entry<Areas>(model).State = System.Data.Entity.EntityState.Modified;
+                int n = db.SaveChanges();
+                if (n > 0)
+                    return area;
+                else
+                    return null;
+            }
+        }
+
+        public List<AreaDto> FindByFilter(string sorting = "asc", string filter = "")
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
@@ -70,13 +114,8 @@ namespace Com.PGJ.SistemaPolizas.Service
                         query = query.OrderByDescending(e => e.Nombre);
                         break;
                 }
-                total = query.Count();
-                var data = query.ToList().Select(e => new Areas
-                {
-                    Id = e.Id,
-                    Nombre = e.Nombre
-                }).ToPagedList(page, count);
-                return data;
+                List<Areas> listModel = query.ToList();
+                return AreaDto.ToMap(listModel);
             }
         }
     }
