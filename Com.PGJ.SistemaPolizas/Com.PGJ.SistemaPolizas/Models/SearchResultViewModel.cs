@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Com.PGJ.SistemaPolizas.Models
 {
-    public class AreasSearchViewModel
+    public class SearchResultViewModel
     {
         public IPagedList result { get; set; }
         public int total { get; set; }

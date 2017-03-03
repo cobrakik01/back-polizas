@@ -13,21 +13,21 @@ using System.Web.Http;
 namespace Com.PGJ.SistemaPolizas.Controllers.Api
 {
     [Authorize]
-    [RoutePrefix("api/areas")]
-    public class AreasController : ApiController
+    [RoutePrefix("api/afianzadoras")]
+    public class AfianzadorasController : ApiController
     {
-        private AreasService service;
+        private AfianzadorasService service;
 
-        public AreasController()
+        public AfianzadorasController() : base()
         {
-            service = new AreasService();
+            service = new AfianzadorasService();
         }
 
         [Route("all")]
         [HttpGet]
-        public async Task<List<AreaDto>> GetAll()
+        public async Task<List<AfianzadoraDto>> GetAll()
         {
-            List<AreaDto> list = await service.GetAllAsync();
+            List<AfianzadoraDto> list = await service.GetAllAsync();
             return list;
         }
 
@@ -36,7 +36,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         public async Task<SearchResultViewModel> Search(int page = 1, int count = 10, string sorting = "asc", string filter = "")
         {
             SearchResultViewModel response = new SearchResultViewModel();
-            List<AreaDto> list = await service.FindByFilterAsync(sorting, filter);
+            List<AfianzadoraDto> list = await service.FindByFilterAsync(sorting, filter);
             response.total = list.Count();
             response.result = list.ToPagedList(page, count);
             return response;
@@ -44,13 +44,13 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route()]
         [HttpPost]
-        public IHttpActionResult Save(AreaDto dto)
+        public IHttpActionResult Save(AfianzadoraDto dto)
         {
             try
             {
-                AreaDto area = service.Save(dto.Nombre);
+                AfianzadoraDto area = service.Save(dto.Nombre);
                 if (area != null)
-                    return Ok(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El Area {0} se dio de alta correctamente.", area.Nombre) } });
+                    return Ok(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("La Afianzadora {0} se dio de alta correctamente.", area.Nombre) } });
             }
             catch (Exception ex)
             {
@@ -61,13 +61,13 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route()]
         [HttpPatch]
-        public IHttpActionResult Update(AreaDto area)
+        public IHttpActionResult Update(AfianzadoraDto area)
         {
             try
             {
-                AreaDto dto = service.Update(area);
+                AfianzadoraDto dto = service.Update(area);
                 if (dto != null)
-                    return Json(new { Message = new { Type = "success", Title = "Editar", Message = string.Format("El Área se actualizo correctamente.") } });
+                    return Json(new { Message = new { Type = "success", Title = "Editar", Message = string.Format("La Afianzadora se actualizo correctamente.") } });
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             return StatusCode(HttpStatusCode.NotFound);
         }
 
-        // DELETE api/areas/5
+        // DELETE api/afianzadoras/5
         [Route("{id}")]
         [HttpDelete]
         public IHttpActionResult Delete(int id)
@@ -84,9 +84,9 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             try
             {
                 if (service.Delete(id))
-                    return Json(new { Message = new { Type = "success", Title = "Eliminar", Message = string.Format("El Área fue eliminada correctamente.") } });
+                    return Json(new { Message = new { Type = "success", Title = "Eliminar", Message = string.Format("La Afianzadora fue eliminada correctamente.") } });
                 else
-                    return Json(new { Message = new { Type = "success", Title = "Eliminar", Message = string.Format("El Área no pudo ser eliminada.") } });
+                    return Json(new { Message = new { Type = "success", Title = "Eliminar", Message = string.Format("La Afianzadora no pudo ser eliminada.") } });
             }
             catch (Exception ex)
             {
