@@ -54,7 +54,7 @@ namespace Com.PGJ.SistemaPolizas
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,
                 RequireUppercase = false,
