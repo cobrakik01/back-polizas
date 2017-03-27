@@ -60,11 +60,18 @@
     <Compile Include="AfianzadorasService.cs" />
     <Compile Include="AreasService.cs" />
     <Compile Include="AutoridadesService.cs" />
+    <Compile Include="Dto\AfianzadoDto.cs" />
     <Compile Include="Dto\AfianzadoraDto.cs" />
     <Compile Include="Dto\AreaDto.cs" />
     <Compile Include="Dto\AutoridadDto.cs" />
+    <Compile Include="Dto\DepositanteDto.cs" />
     <Compile Include="Dto\DetalleUsuarioDto.cs" />
+    <Compile Include="Dto\EgresoDto.cs" />
+    <Compile Include="Dto\IngresoDto.cs" />
+    <Compile Include="Dto\MinisterioPublicoDto.cs" />
+    <Compile Include="Dto\PolizaDto.cs" />
     <Compile Include="IngresosService.cs" />
+    <Compile Include="PolizasService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuariosService.cs" />
   </ItemGroup>
