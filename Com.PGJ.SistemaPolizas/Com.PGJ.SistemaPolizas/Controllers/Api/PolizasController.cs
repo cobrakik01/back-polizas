@@ -1,11 +1,14 @@
-﻿using Com.PGJ.SistemaPolizas.Service;
+﻿using Com.PGJ.SistemaPolizas.Models;
+using Com.PGJ.SistemaPolizas.Service;
 using Com.PGJ.SistemaPolizas.Service.Dto;
 using Microsoft.AspNet.Identity;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Com.PGJ.SistemaPolizas.Controllers.Api
@@ -49,14 +52,23 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             }
             return StatusCode(HttpStatusCode.NotFound);
         }
-    }
 
-    public class PolizasCreateRequest
-    {
-        public DepositanteDto depositante { get; set; }
-        public AfianzadoDto afianzado { get; set; }
-        public PolizaDto poliza { get; set; }
-        public AfianzadoraDto afianzadora { get; set; }
-        public decimal cantidad { get; set; }
+        [Route()]
+        [HttpGet]
+        public async Task<SearchResultViewModel> Search(SearchPolozasRequest filterObject, int page = 1, int count = 10, string sortingField = "", string sorting = "asc")
+        {
+            SearchResultViewModel response = new SearchResultViewModel();
+            List<SearchPolizasResponse> list = await service.FindByFilterAsync(filterObject, sortingField, sorting);
+            response.total = list.Count();
+            response.result = list.ToPagedList(page, count);
+            return response;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IHttpActionResult GetPoliza(int id)
+        {
+            return Ok(service.FindPolizaById(id));
+        }
     }
 }

@@ -26,5 +26,13 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
             Polizas model = TinyMapper.Map<Polizas>(dto);
             return model;
         }
+
+        internal static PolizaDto ToMap(Polizas model)
+        {
+            if (model == null) return null;
+            TinyMapper.Bind<Polizas, PolizaDto>();
+            PolizaDto dto = TinyMapper.Map<PolizaDto>(model);
+            return dto;
+        }
     }
 }
