@@ -199,8 +199,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AfianzadorasController.cs" />
+    <Compile Include="Controllers\Api\AfianzadosController.cs" />
     <Compile Include="Controllers\Api\AreasController.cs" />
     <Compile Include="Controllers\Api\AutoridadesController.cs" />
+    <Compile Include="Controllers\Api\DepositantesController.cs" />
     <Compile Include="Controllers\Api\IngresosController.cs" />
     <Compile Include="Controllers\Api\PolizasController.cs" />
     <Compile Include="Controllers\Api\SecurityController.cs" />
