@@ -18,6 +18,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         public Afianzados()
         {
             this.Depositantes = new HashSet<Depositantes>();
+            this.Polizas = new HashSet<Polizas>();
         }
     
         public int Id { get; set; }
@@ -25,10 +26,10 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public System.DateTime FechaDeNacimiento { get; set; }
-        public int Poliza_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Depositantes> Depositantes { get; set; }
-        public virtual Polizas Polizas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Polizas> Polizas { get; set; }
     }
 }

@@ -14,11 +14,7 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public DateTime FechaDeNacimiento { get; set; }
-        public int Poliza_Id { get; set; }
-
-        public virtual ICollection<DepositanteDto> Depositantes { get; set; }
-        //public virtual PolizaDto Polizas { get; set; }
+        public System.DateTime FechaDeNacimiento { get; set; }
 
         internal static Afianzados ToUnMap(AfianzadoDto dto)
         {

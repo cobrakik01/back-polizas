@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Com.PGJ.SistemaPolizas.Data.Model;
+using Nelibur.ObjectMapper;
 
 namespace Com.PGJ.SistemaPolizas.Service.Dto
 {
@@ -15,12 +16,14 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public string ApellidoPaterno { get; set; }
         public int AfianzadoId { get; set; }
 
-        public virtual AfianzadoDto Afianzados { get; set; }
-        public virtual ICollection<IngresoDto> Ingresos { get; set; }
+        public Afianzados Afianzados { get; set; }
 
         internal static Depositantes ToUnMap(DepositanteDto dto)
         {
-            throw new NotImplementedException();
+            if (dto == null) return null;
+            TinyMapper.Bind<DepositanteDto, Depositantes>();
+            Depositantes model = TinyMapper.Map<Depositantes>(dto);
+            return model;
         }
     }
 }

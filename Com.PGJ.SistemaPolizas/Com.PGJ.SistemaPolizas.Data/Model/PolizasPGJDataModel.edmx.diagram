@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ab0d02a599ca452bbaa84b92ae933242" Name="Diagram1" ZoomLevel="66">
+      <Diagram DiagramId="ab0d02a599ca452bbaa84b92ae933242" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Afianzadoras" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Afianzados" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Areas" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Polizas" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_AfianzadoraPoliza" ManuallyRouted="false" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_AfianzadoDepositante" ManuallyRouted="false" />
-        <AssociationConnector Association="PGJSistemaPolizasModel.FK_AfianzadoPoliza" ManuallyRouted="false" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_AreaDetalleUsuario" ManuallyRouted="false" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_AutoridadEgreso" ManuallyRouted="false" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_AutoridadMinisterioPublico" ManuallyRouted="false" />
@@ -26,6 +25,7 @@
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_DetalleUsuarioIngreso" ManuallyRouted="false" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_EgresoMinisterioPublico" ManuallyRouted="false" />
         <AssociationConnector Association="PGJSistemaPolizasModel.FK_PolizaIngreso" ManuallyRouted="false" />
+        <AssociationConnector Association="PGJSistemaPolizasModel.PolizasAfianzados" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

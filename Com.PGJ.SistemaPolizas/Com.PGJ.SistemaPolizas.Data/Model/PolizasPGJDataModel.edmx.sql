@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/26/2017 21:04:53
+-- Date Created: 04/14/2017 09:10:10
 -- Generated from EDMX file: C:\GitRepos\Federico\PGJ\back-polizas\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Data\Model\PolizasPGJDataModel.edmx
 -- --------------------------------------------------
 
@@ -103,8 +103,7 @@ CREATE TABLE [dbo].[Afianzados] (
     [Nombre] nvarchar(max)  NOT NULL,
     [ApellidoPaterno] nvarchar(max)  NOT NULL,
     [ApellidoMaterno] nvarchar(max)  NOT NULL,
-    [FechaDeNacimiento] datetime  NOT NULL,
-    [Poliza_Id] int  NOT NULL
+    [FechaDeNacimiento] datetime  NOT NULL
 );
 GO
 
@@ -185,7 +184,8 @@ CREATE TABLE [dbo].[Polizas] (
     [AveriguacionPrevia] nvarchar(max)  NOT NULL,
     [AfianzadoraId] int  NOT NULL,
     [Descripcion] nvarchar(max)  NULL,
-    [FechaDeAlta] datetime  NOT NULL
+    [FechaDeAlta] datetime  NOT NULL,
+    [Afianzado_Id] int  NULL
 );
 GO
 
@@ -285,21 +285,6 @@ GO
 CREATE INDEX [IX_FK_AfianzadoDepositante]
 ON [dbo].[Depositantes]
     ([AfianzadoId]);
-GO
-
--- Creating foreign key on [Poliza_Id] in table 'Afianzados'
-ALTER TABLE [dbo].[Afianzados]
-ADD CONSTRAINT [FK_AfianzadoPoliza]
-    FOREIGN KEY ([Poliza_Id])
-    REFERENCES [dbo].[Polizas]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AfianzadoPoliza'
-CREATE INDEX [IX_FK_AfianzadoPoliza]
-ON [dbo].[Afianzados]
-    ([Poliza_Id]);
 GO
 
 -- Creating foreign key on [AreaId] in table 'DetallesUsuarios'
@@ -420,6 +405,21 @@ GO
 CREATE INDEX [IX_FK_PolizaIngreso]
 ON [dbo].[Ingresos]
     ([PolizaId]);
+GO
+
+-- Creating foreign key on [Afianzado_Id] in table 'Polizas'
+ALTER TABLE [dbo].[Polizas]
+ADD CONSTRAINT [FK_PolizasAfianzados]
+    FOREIGN KEY ([Afianzado_Id])
+    REFERENCES [dbo].[Afianzados]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PolizasAfianzados'
+CREATE INDEX [IX_FK_PolizasAfianzados]
+ON [dbo].[Polizas]
+    ([Afianzado_Id]);
 GO
 
 -- --------------------------------------------------

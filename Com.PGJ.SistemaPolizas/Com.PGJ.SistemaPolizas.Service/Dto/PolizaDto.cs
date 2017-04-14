@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Com.PGJ.SistemaPolizas.Data.Model;
+using Nelibur.ObjectMapper;
 
 namespace Com.PGJ.SistemaPolizas.Service.Dto
 {
@@ -14,8 +16,15 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public string Descripcion { get; set; }
         public System.DateTime FechaDeAlta { get; set; }
 
-        public virtual AfianzadoraDto Afianzadoras { get; set; }
-        public virtual ICollection<AfianzadoDto> Afianzados { get; set; }
-        public virtual ICollection<IngresoDto> Ingresos { get; set; }
+        public AfianzadoraDto Afianzadoras { get; set; }
+        public AfianzadoDto Afianzado { get; set; }
+
+        internal static Polizas ToUnMap(PolizaDto dto)
+        {
+            if (dto == null) return null;
+            TinyMapper.Bind<PolizaDto, Polizas>();
+            Polizas model = TinyMapper.Map<Polizas>(dto);
+            return model;
+        }
     }
 }

@@ -17,7 +17,6 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Polizas()
         {
-            this.Afianzados = new HashSet<Afianzados>();
             this.Ingresos = new HashSet<Ingresos>();
         }
     
@@ -29,8 +28,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
     
         public virtual Afianzadoras Afianzadoras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Afianzados> Afianzados { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ingresos> Ingresos { get; set; }
+        public virtual Afianzados Afianzado { get; set; }
     }
 }

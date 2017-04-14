@@ -11,56 +11,81 @@ namespace Com.PGJ.SistemaPolizas.Service
     public class PolizasService
     {
 
-        public PolizaDto Save(string userId, PolizaDto poliza, DepositanteDto depositanteDto, AfianzadoDto afianzadoDto, AfianzadoraDto afianzadora, decimal cantidad)
+        public PolizaDto Save(string userId, PolizaDto _polizaDto, DepositanteDto depositanteDto, AfianzadoDto afianzadoDto, AfianzadoraDto afianzadoraDto, decimal cantidad)
         {
+            DateTime _createdAt = DateTime.Now;
+            Polizas poliza = PolizaDto.ToUnMap(_polizaDto);
+            Afianzados afianzado = AfianzadoDto.ToUnMap(afianzadoDto);
+            Depositantes depositante = DepositanteDto.ToUnMap(depositanteDto);
+
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
                 using (System.Data.Entity.DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
-                    Afianzados afianzado = AfianzadoDto.ToUnMap(afianzadoDto);
-                    Depositantes depositante = DepositanteDto.ToUnMap(depositante);
+                    Afianzadoras afianzadora = db.Afianzadoras.Where(a => a.Id == afianzadoraDto.Id).FirstOrDefault();
                     DetallesUsuarios _currentUser = db.DetallesUsuarios.Where(e => e.AuthUserId == userId).FirstOrDefault();
-
+                    
                     db.Afianzados.Add(afianzado);
+                    /*
                     if (!this.ExisteDepositante(depositante, db))
                         afianzado.Depositantes.Add(depositante);
-
+                    */
+                    /*
+                    poliza.AfianzadoraId = afianzadoraDto.Id;
                     poliza.Afianzado = afianzado;
-                    poliza.AfianzadoraId = afianzadora.Id;
-                    poliza.FechaDeAlta = DateTime.Now;
-                    db.Polizas.Add(poliza);
-                    db.SaveChanges();
+                    */
+                    poliza.FechaDeAlta = _createdAt;
+                    //db.Polizas.Add(poliza);
+                    //db.SaveChanges();
 
-                    Models.Ingreso ingreso = new Models.Ingreso();
+                    Ingresos ingreso = new Ingresos();
                     ingreso.Cantidad = cantidad;
-                    ingreso.FechaDeIngreso = DateTime.Now;
-                    ingreso.DepositanteId = depositante.Id;
+                    ingreso.FechaDeIngreso = _createdAt;
                     ingreso.Descripcion = poliza.Descripcion;
 
-                    Models.DetallesUsuario currentUserDetails = db.DetallesUsuarios.Where(e => e.UserId == _currentUser.UserId).FirstOrDefault();
-                    ingreso.DetalleUsuarioId = currentUserDetails.Id;
-                    ingreso.PolizaId = poliza.Id;
-                    db.Ingresos.Add(ingreso);
-                    db.SaveChanges();
+                    afianzadora.Polizas.Add(poliza);
+                    afianzado.Polizas.Add(poliza);
+                    afianzado.Depositantes.Add(depositante);
+                    poliza.Ingresos.Add(ingreso);
+                    depositante.Ingresos.Add(ingreso);
+                    _currentUser.Ingresos.Add(ingreso);
+
+                    int n = db.SaveChanges();
                     transaction.Commit();
-                    return poliza;
+                    return _polizaDto;
                 }
             }
         }
 
-        private bool ExisteDepositante(Depositantes depositante, PGJSistemaPolizasEntities db = null)
+        private T CheckContext<T>(Func<PGJSistemaPolizasEntities, T> fn, PGJSistemaPolizasEntities db = null)
         {
-            throw new NotImplementedException();
+            if (db == null)
+                using (db = new PGJSistemaPolizasEntities())
+                    return fn(db);
+            else
+                return fn(db);
         }
 
-        public bool ExisteAveriguacionPrevia(string averiguacionPrevia, PGJSistemaPolizasEntities db = null)
+        private bool ExisteDepositante(Depositantes depositante, PGJSistemaPolizasEntities db = null)
         {
-            throw new NotImplementedException();
+            return CheckContext((_db) => null != _db.Depositantes.Where(e => e.Nombre.Contains(depositante.Nombre) && e.ApellidoPaterno.Contains(depositante.ApellidoPaterno) && e.ApellidoMaterno.Contains(depositante.ApellidoMaterno)).FirstOrDefault(), db);
+        }
+
+        public bool ExisteAveriguacionPrevia(string averiguacionPrevia, PGJSistemaPolizasEntities _db = null)
+        {
+            return CheckContext((db) => null != db.Polizas.Where(e => e.AveriguacionPrevia == averiguacionPrevia).FirstOrDefault(), _db);
         }
 
         public bool ExisteAfianzado(AfianzadoDto afianzado, PGJSistemaPolizasEntities db = null)
         {
-            throw new NotImplementedException();
+            return FindByAfianzado(afianzado, db) != null;
+        }
+
+        private Afianzados FindByAfianzado(AfianzadoDto afianzado, PGJSistemaPolizasEntities _db = null)
+        {
+            return CheckContext((db) => db.Afianzados.Where(e => e.Nombre == afianzado.Nombre
+                && e.ApellidoMaterno == afianzado.ApellidoMaterno
+                && e.ApellidoPaterno == afianzado.ApellidoPaterno).FirstOrDefault<Afianzados>(), _db);
         }
     }
 }

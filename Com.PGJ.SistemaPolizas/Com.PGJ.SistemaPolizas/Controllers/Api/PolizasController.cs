@@ -24,16 +24,17 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route()]
         [HttpPost]
-        public IHttpActionResult Save(
-            DepositanteDto depositante,
-            AfianzadoDto afianzado,
-            PolizaDto poliza,
-            AfianzadoraDto afianzadora,
-            decimal cantidad)
+        public IHttpActionResult Save(PolizasCreateRequest request)
         {
+            DepositanteDto depositante = request.depositante;
+            AfianzadoDto afianzado = request.afianzado;
+            PolizaDto poliza = request.poliza;
+            AfianzadoraDto afianzadora = request.afianzadora;
+            decimal cantidad = request.cantidad;
+
             try
             {
-                if(service.ExisteAfianzado(afianzado))
+                if (service.ExisteAfianzado(afianzado))
                     return Ok(new { Message = new { Type = "warning", Title = "Cuidado!", Message = string.Format("El afianzado {0} {1} {2} ya existe.", afianzado.ApellidoPaterno, afianzado.ApellidoMaterno, afianzado.Nombre) }, SingleData = new { Afianzado = service.ExisteAfianzado(afianzado), AveriguacionPrevia = service.ExisteAveriguacionPrevia(poliza.AveriguacionPrevia) } });
                 if (service.ExisteAveriguacionPrevia(poliza.AveriguacionPrevia))
                     return Ok(new { Message = new { Type = "warning", Title = "Cuidado!", Message = string.Format("La averiguación previa {0} ya existe.", poliza.AveriguacionPrevia) }, SingleData = new { Afianzado = service.ExisteAfianzado(afianzado), AveriguacionPrevia = service.ExisteAveriguacionPrevia(poliza.AveriguacionPrevia) } });
@@ -48,32 +49,14 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             }
             return StatusCode(HttpStatusCode.NotFound);
         }
+    }
 
-        // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
+    public class PolizasCreateRequest
+    {
+        public DepositanteDto depositante { get; set; }
+        public AfianzadoDto afianzado { get; set; }
+        public PolizaDto poliza { get; set; }
+        public AfianzadoraDto afianzadora { get; set; }
+        public decimal cantidad { get; set; }
     }
 }
