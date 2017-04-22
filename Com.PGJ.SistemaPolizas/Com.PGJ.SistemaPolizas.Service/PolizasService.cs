@@ -81,12 +81,12 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
-        public Task<List<IngresoDto>> FindIngresosByFilterAsync(int polizaId, string filter = "", string sortingField = "", string sorting = "asc")
+        public Task<List<IngresoDto>> FindIngresosByFilterAsync(int polizaId, SearchIngresoRequest request = null, string sortingField = "", string sorting = "asc")
         {
-            return Task.FromResult(FindIngresosByFilter(polizaId, filter, sortingField, sorting));
+            return Task.FromResult(FindIngresosByFilter(polizaId, request, sortingField, sorting));
         }
 
-        private List<IngresoDto> FindIngresosByFilter(int polizaId, string filter = "", string sortingField = "", string sorting = "asc")
+        private List<IngresoDto> FindIngresosByFilter(int polizaId, SearchIngresoRequest request = null, string sortingField = "", string sorting = "asc")
         {
             List<IngresoDto> list = new List<IngresoDto>();
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
@@ -94,7 +94,20 @@ namespace Com.PGJ.SistemaPolizas.Service
                 var poliza = db.Polizas.Where(p => p.Id == polizaId).FirstOrDefault();
                 if (poliza != null)
                 {
-                     list = poliza.Ingresos.ToList().Select(i => IngresoDto.ToMap(i)).ToList();
+                    var query = poliza.Ingresos.Select(e => e);
+                    if (request != null)
+                    {
+                        if (request.Cantidad != null)
+                            query = query.Where(e => e.Cantidad.ToString().Contains(request.Cantidad.ToString()));
+                        if (!string.IsNullOrEmpty(request.Depositante))
+                            query = query.Where(e => e.Depositantes != null && (e.Depositantes.ApellidoMaterno + e.Depositantes.ApellidoPaterno + e.Depositantes.Nombre).ToLower().Contains(request.Depositante.ToLower()));
+                        if (!string.IsNullOrEmpty(request.Descripcion))
+                            query = query.Where(e => e.Descripcion.ToLower().Contains(request.Descripcion.ToLower()));
+                        if (!string.IsNullOrEmpty(request.FechaDeIngreso))
+                            query = query.Where(e => e.FechaDeIngreso.ToString().Contains(request.FechaDeIngreso));
+                    }
+                    var listIngresos = query.ToList();
+                    list = listIngresos.Select(i => IngresoDto.ToMap(i)).ToList();
                 }
             }
             return list;
@@ -278,5 +291,38 @@ namespace Com.PGJ.SistemaPolizas.Service
         public PolizaDto poliza { get; set; }
         public AfianzadoraDto afianzadora { get; set; }
         public decimal cantidad { get; set; }
+    }
+
+    public class SearchIngresoRequest
+    {
+        public decimal? Cantidad { set; get; }
+        public string Depositante { set; get; }
+        public string Descripcion { set; get; }
+
+        private string _FechaDeIngreso;
+        public string FechaDeIngreso
+        {
+            set
+            {
+                _FechaDeIngreso = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    string[] strDate = value.Split('/');
+                    if (strDate.Length == 1)
+                        this.Day = strDate[0];
+                    if (strDate.Length == 2)
+                        this.Month = strDate[1];
+                    if (strDate.Length == 3)
+                        this.Year = strDate[2];
+                }
+            }
+            get
+            {
+                return _FechaDeIngreso;
+            }
+        }
+        public string Day { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
     }
 }

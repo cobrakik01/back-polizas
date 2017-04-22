@@ -2,6 +2,7 @@
 using Com.PGJ.SistemaPolizas.Service;
 using Com.PGJ.SistemaPolizas.Service.Dto;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -73,21 +74,27 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [HttpGet]
         [Route("{polizaId}/ingresos")]
-        //public async Task<SearchResultViewModel> Search(int polizaId, int page = 1, int count = 10, string sorting = "asc", string filter = "")
-        public async Task<SearchResultViewModel> SearchIngresos(int polizaId, int page = 1, int count = 10, string sortingField = "", string sorting = "asc", string filter = "")
+        public async Task<SearchResultViewModel> SearchIngresos(int polizaId, string filterObject = "", int page = 1, int count = 10, string sortingField = "", string sorting = "asc")
         {
+            SearchIngresoRequest request = JsonConvert.DeserializeObject<SearchIngresoRequest>(filterObject);
             SearchResultViewModel response = new SearchResultViewModel();
-            List<IngresoDto> list = await service.FindIngresosByFilterAsync(polizaId, filter, sortingField, sorting);
+            List<IngresoDto> list = await service.FindIngresosByFilterAsync(polizaId, request, sortingField, sorting);
             response.total = list.Count();
             response.result = list.ToPagedList(page, count);
             return response;
         }
+
+        [HttpPost]
+        [Route("{polizaId}/ingresos")]
+        public IHttpActionResult SaveIngresos(int polizaId, IngresoCreateRequest request)
+        {
+            return Ok();
+        }
     }
 
-    public partial class IngresoRequest
+    public class IngresoCreateRequest
     {
-        public decimal Cantidad { get; set; }
-        public string Descripcion { get; set; }
-        public System.DateTime FechaDeIngreso { get; set; }
+        public IngresoDto Ingreso { set; get; }
+        public DepositanteDto Depositante { set; get; }
     }
 }
