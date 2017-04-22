@@ -15,8 +15,7 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public int DetalleUsuarioId { get; set; }
         public string Descripcion { get; set; }
 
-        public virtual AutoridadDto Autoridads { get; set; }
-        public virtual DetalleUsuarioDto DetallesUsuarios { get; set; }
-        public virtual ICollection<MinisterioPublicoDto> MinisteriosPublicos { get; set; }
+        public AutoridadDto Autoridads { get; set; }
+        public DetalleUsuarioDto DetallesUsuarios { get; set; }
     }
 }

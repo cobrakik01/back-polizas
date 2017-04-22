@@ -70,5 +70,24 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         {
             return Ok(service.FindPolizaById(id));
         }
+
+        [HttpGet]
+        [Route("{polizaId}/ingresos")]
+        //public async Task<SearchResultViewModel> Search(int polizaId, int page = 1, int count = 10, string sorting = "asc", string filter = "")
+        public async Task<SearchResultViewModel> SearchIngresos(int polizaId, int page = 1, int count = 10, string sortingField = "", string sorting = "asc", string filter = "")
+        {
+            SearchResultViewModel response = new SearchResultViewModel();
+            List<IngresoDto> list = await service.FindIngresosByFilterAsync(polizaId, filter, sortingField, sorting);
+            response.total = list.Count();
+            response.result = list.ToPagedList(page, count);
+            return response;
+        }
+    }
+
+    public partial class IngresoRequest
+    {
+        public decimal Cantidad { get; set; }
+        public string Descripcion { get; set; }
+        public System.DateTime FechaDeIngreso { get; set; }
     }
 }

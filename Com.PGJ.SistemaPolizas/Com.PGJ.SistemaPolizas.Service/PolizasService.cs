@@ -81,6 +81,25 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
+        public Task<List<IngresoDto>> FindIngresosByFilterAsync(int polizaId, string filter = "", string sortingField = "", string sorting = "asc")
+        {
+            return Task.FromResult(FindIngresosByFilter(polizaId, filter, sortingField, sorting));
+        }
+
+        private List<IngresoDto> FindIngresosByFilter(int polizaId, string filter = "", string sortingField = "", string sorting = "asc")
+        {
+            List<IngresoDto> list = new List<IngresoDto>();
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                var poliza = db.Polizas.Where(p => p.Id == polizaId).FirstOrDefault();
+                if (poliza != null)
+                {
+                     list = poliza.Ingresos.ToList().Select(i => IngresoDto.ToMap(i)).ToList();
+                }
+            }
+            return list;
+        }
+
         private List<SearchPolizasResponse> FindByFilter(SearchPolozasRequest filterObject, string sortingField, string sorting = "asc")
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())

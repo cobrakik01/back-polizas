@@ -16,7 +16,7 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public string ApellidoPaterno { get; set; }
         public int AfianzadoId { get; set; }
 
-        public Afianzados Afianzados { get; set; }
+        public AfianzadoDto Afianzados { get; set; }
 
         internal static Depositantes ToUnMap(DepositanteDto dto)
         {

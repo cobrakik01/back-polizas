@@ -14,7 +14,7 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public int EgresoId { get; set; }
         // public Nullable<int> EgresoId { get; set; }
 
-        public virtual AutoridadDto Autoridads { get; set; }
-        public virtual EgresoDto Egresos { get; set; }
+        public AutoridadDto Autoridads { get; set; }
+        public EgresoDto Egresos { get; set; }
     }
 }

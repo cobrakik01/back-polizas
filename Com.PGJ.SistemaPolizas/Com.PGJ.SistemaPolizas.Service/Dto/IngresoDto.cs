@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Com.PGJ.SistemaPolizas.Data.Model;
+using Nelibur.ObjectMapper;
 
 namespace Com.PGJ.SistemaPolizas.Service.Dto
 {
@@ -16,8 +18,24 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public string Descripcion { get; set; }
         public int DetalleUsuarioId { get; set; }
 
-        public virtual DepositanteDto Depositantes { get; set; }
-        public virtual DetalleUsuarioDto DetallesUsuarios { get; set; }
-        public virtual PolizaDto Polizas { get; set; }
+        public DepositanteDto Depositantes { get; set; }
+        public DetalleUsuarioDto DetallesUsuarios { get; set; }
+        public PolizaDto Polizas { get; set; }
+
+        internal static IngresoDto ToMap(Ingresos model)
+        {
+            if (model == null) return null;
+            try
+            {
+                TinyMapper.Bind<Ingresos, IngresoDto>();
+                IngresoDto dto = TinyMapper.Map<IngresoDto>(model);
+                return dto;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw ex;
+            }
+        }
     }
 }

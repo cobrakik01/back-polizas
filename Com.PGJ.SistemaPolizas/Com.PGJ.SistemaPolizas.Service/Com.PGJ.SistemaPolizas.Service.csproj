@@ -61,7 +61,6 @@
     <Compile Include="AfianzadosService.cs" />
     <Compile Include="AreasService.cs" />
     <Compile Include="AutoridadesService.cs" />
-    <Compile Include="DepositantesService.cs" />
     <Compile Include="Dto\AfianzadoDto.cs" />
     <Compile Include="Dto\AfianzadoraDto.cs" />
     <Compile Include="Dto\AreaDto.cs" />
