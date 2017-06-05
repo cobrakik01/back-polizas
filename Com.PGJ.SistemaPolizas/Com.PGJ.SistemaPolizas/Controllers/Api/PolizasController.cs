@@ -56,10 +56,11 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route()]
         [HttpGet]
-        public async Task<SearchResultViewModel> Search(SearchPolozasRequest filterObject, int page = 1, int count = 10, string sortingField = "", string sorting = "asc")
+        public async Task<SearchResultViewModel> Search(string filterObject = "", int page = 1, int count = 10, string sortingField = "", string sorting = "asc")
         {
             SearchResultViewModel response = new SearchResultViewModel();
-            List<SearchPolizasResponse> list = await service.FindByFilterAsync(filterObject, sortingField, sorting);
+            SearchPolozasRequest objFilterObject = JsonConvert.DeserializeObject<SearchPolozasRequest>(filterObject);
+            List<SearchPolizasResponse> list = await service.FindByFilterAsync(objFilterObject, sortingField, sorting);
             response.total = list.Count();
             response.result = list.ToPagedList(page, count);
             return response;

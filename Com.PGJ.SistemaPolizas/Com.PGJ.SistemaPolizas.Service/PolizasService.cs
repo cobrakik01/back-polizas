@@ -263,7 +263,7 @@ namespace Com.PGJ.SistemaPolizas.Service
     public class SearchPolozasRequest
     {
         public string AveriguacionPrevia { get; set; }
-        public decimal TotalIngresos { get; set; }
+        public decimal? TotalIngresos { get; set; }
         public AfianzadoraDto Afianzadora { get; set; }
         public AfianzadoDto Afianzado { get; set; }
         public string FechaDeAlta { get; set; }
@@ -273,7 +273,7 @@ namespace Com.PGJ.SistemaPolizas.Service
     {
         public string AveriguacionPrevia { get; set; }
         public AfianzadoDto Afianzado { get; set; }
-        public double ingresos { get; set; }
+        public double? ingresos { get; set; }
         public AfianzadoraDto Afianzadora { get; set; }
         public DateTime FechaDeAlta { get; set; }
         public int Id { get; internal set; }
@@ -281,7 +281,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         public int AfianzadoraId { get; internal set; }
         public string Descripcion { get; internal set; }
         public int IngresosCount { get; internal set; }
-        public decimal TotalIngresos { get; internal set; }
+        public decimal? TotalIngresos { get; internal set; }
     }
 
     public class PolizasCreateRequest
