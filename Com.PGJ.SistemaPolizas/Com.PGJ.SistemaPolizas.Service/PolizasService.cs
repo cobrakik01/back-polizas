@@ -81,6 +81,22 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
+        public PolizaDto Update(PolizaDto request)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Polizas poliza = PolizaDto.ToUnMap(request);
+                poliza.AfianzadoraId = poliza.Afianzadoras.Id;
+                db.Entry<Polizas>(poliza).State = System.Data.Entity.EntityState.Modified;
+                int nModified = db.SaveChanges();
+                if(nModified > 0)
+                {
+                    return request;
+                }
+            }
+            return null;
+        }
+
         public Task<List<IngresoDto>> FindIngresosByFilterAsync(int polizaId, SearchIngresoRequest request = null, string sortingField = "", string sorting = "asc")
         {
             return Task.FromResult(FindIngresosByFilter(polizaId, request, sortingField, sorting));

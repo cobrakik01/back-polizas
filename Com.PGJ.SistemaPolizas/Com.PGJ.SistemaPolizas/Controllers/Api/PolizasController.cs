@@ -70,7 +70,25 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         [Route("{id}")]
         public IHttpActionResult GetPoliza(int id)
         {
-            return Ok(service.FindPolizaById(id));
+            PolizaDto poliza = service.FindPolizaById(id);
+            return Ok(poliza);
+        }
+
+        [HttpPatch]
+        [Route()]
+        public IHttpActionResult SaveIngresos(PolizaDto request)
+        {
+            try
+            {
+                PolizaDto polizaModified = service.Update(request);
+                if (polizaModified != null)
+                    return Json(new { Message = new { Type = "success", Title = "Editar", Message = string.Format("La póliza se actualizo correctamente.") } });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Message = new { Type = "warning", Title = "", Message = string.Format(ex.Message) } });
+            }
+            return StatusCode(HttpStatusCode.NotFound);
         }
 
         [HttpGet]
