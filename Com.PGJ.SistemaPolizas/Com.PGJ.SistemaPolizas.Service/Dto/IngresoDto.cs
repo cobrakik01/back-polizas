@@ -37,5 +37,13 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
                 throw ex;
             }
         }
+
+        internal static Ingresos ToUnMap(IngresoDto dto)
+        {
+            if (dto == null) return null;
+            TinyMapper.Bind<IngresoDto, Ingresos>();
+            Ingresos model = TinyMapper.Map<Ingresos>(dto);
+            return model;
+        }
     }
 }

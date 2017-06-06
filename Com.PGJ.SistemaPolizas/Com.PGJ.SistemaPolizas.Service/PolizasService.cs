@@ -75,13 +75,16 @@ namespace Com.PGJ.SistemaPolizas.Service
             return Task.FromResult(FindByFilter(filterObject, sortingField, sorting));
         }
 
-        public PolizaDto FindPolizaById(int id)
+        public PolizaResponse FindPolizaById(int id)
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
                 Polizas poliza = db.Polizas.Where(p => p.Id == id).FirstOrDefault();
-                PolizaDto dto = PolizaDto.ToMap(poliza);
-                return dto;
+                PolizaResponse r = new PolizaResponse();
+                r.Poliza = PolizaDto.ToMap(poliza);
+                r.TotalIngresos = poliza.Ingresos.Sum(i => i.Cantidad);
+                r.TotalIngresos = r.TotalIngresos.GetValueOrDefault();
+                return r;
             }
         }
 
@@ -133,6 +136,38 @@ namespace Com.PGJ.SistemaPolizas.Service
             return list;
         }
 
+        public bool AddIngreso(string userId, int polizaId, IngresoCreateRequest request)
+        {
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                using (System.Data.Entity.DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    DetallesUsuarios currentUserDetails = db.DetallesUsuarios.Where(e => e.AuthUserId == userId).FirstOrDefault();
+
+                    Ingresos ingreso = IngresoDto.ToUnMap(request.Ingreso);
+                    ingreso.FechaDeIngreso = DateTime.Now;
+                    ingreso.DetallesUsuarios = currentUserDetails;
+
+                    Polizas poliza = db.Polizas.Where(p => p.Id == polizaId).FirstOrDefault();
+                    if (poliza == null)
+                        throw new Exception("No se encontró la póliza solicitada");
+
+                    poliza.Ingresos.Add(ingreso);
+                    Depositantes depositante = db.Depositantes.Where(a => a.Id == request.Depositante.Id).FirstOrDefault();
+                    if(depositante == null)
+                    {
+                        depositante = DepositanteDto.ToUnMap(request.Depositante);
+                        poliza.Afianzado.Depositantes.Add(depositante);
+                    }
+
+                    depositante.Ingresos.Add(ingreso);
+                    int nChanges = db.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return false;
+        }
+
         private List<SearchPolizasResponse> FindByFilter(SearchPolozasRequest filterObject, string sortingField, string sorting = "asc")
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
@@ -161,10 +196,8 @@ namespace Com.PGJ.SistemaPolizas.Service
                         Descripcion = e.Descripcion,
                         FechaDeAlta = e.FechaDeAlta,
                         IngresosCount = e.Ingresos.Count,
-                        //TotalIngresos = (decimal?)e.Ingresos.Sum(ingreso => ingreso.Cantidad)
                         TotalIngresos = (decimal?)(from ing in db.Ingresos where ing.PolizaId == e.Id select new { Cantidad = ing.Cantidad }).Sum(ing => ing.Cantidad)
                     });
-                    //.ToList();
 
                 if (filterObject != null)
                 {
@@ -362,5 +395,17 @@ namespace Com.PGJ.SistemaPolizas.Service
         public string Day { get; set; }
         public string Month { get; set; }
         public string Year { get; set; }
+    }
+
+    public class IngresoCreateRequest
+    {
+        public IngresoDto Ingreso { set; get; }
+        public DepositanteDto Depositante { set; get; }
+    }
+
+    public class PolizaResponse
+    {
+        public PolizaDto Poliza { get; set; }
+        public decimal? TotalIngresos { get; set; }
     }
 }

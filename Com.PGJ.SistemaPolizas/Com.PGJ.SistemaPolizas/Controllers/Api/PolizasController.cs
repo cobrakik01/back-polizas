@@ -69,7 +69,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         [Route("{id}")]
         public IHttpActionResult GetPoliza(int id)
         {
-            PolizaDto poliza = service.FindPolizaById(id);
+            PolizaResponse poliza = service.FindPolizaById(id);
             return Ok(poliza);
         }
 
@@ -106,13 +106,15 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         [Route("{polizaId}/ingresos")]
         public IHttpActionResult SaveIngresos(int polizaId, IngresoCreateRequest request)
         {
-            return Ok();
+            try
+            {
+                service.AddIngreso(User.Identity.GetUserId(), polizaId, request);
+                return Json(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El ingreso se registro correctamente.") } });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Message = new { Type = "warning", Title = "", Message = string.Format(ex.Message) } });
+            }
         }
-    }
-
-    public class IngresoCreateRequest
-    {
-        public IngresoDto Ingreso { set; get; }
-        public DepositanteDto Depositante { set; get; }
     }
 }
