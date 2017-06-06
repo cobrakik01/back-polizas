@@ -11,7 +11,7 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
     public class IngresoDto
     {
         public int Id { get; set; }
-        public decimal Cantidad { get; set; }
+        public decimal? Cantidad { get; set; }
         public int PolizaId { get; set; }
         public System.DateTime FechaDeIngreso { get; set; }
         public int DepositanteId { get; set; }

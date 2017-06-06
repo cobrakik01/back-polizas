@@ -133,7 +133,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Cantidad" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Cantidad" Type="decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="PolizaId" Type="int" Nullable="false" />
     <Property Name="FechaDeIngreso" Type="datetime" Nullable="false" />
     <Property Name="DepositanteId" Type="int" Nullable="false" />
@@ -158,6 +158,7 @@
     <Property Name="AfianzadoraId" Type="int" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
     <Property Name="FechaDeAlta" Type="datetime" Nullable="false" />
+    <Property Name="Cantidad" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="Afianzado_Id" Type="int" Nullable="true" />
   </EntityType>
   <Association Name="FK_AfianzadoraPoliza">
@@ -382,7 +383,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PolizaId" Type="Int32" Nullable="false" />
           <Property Name="FechaDeIngreso" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DepositanteId" Type="Int32" Nullable="false" />
@@ -415,6 +416,7 @@
           <NavigationProperty Name="Afianzadoras" Relationship="Self.FK_AfianzadoraPoliza" FromRole="Polizas" ToRole="Afianzadoras" />
           <NavigationProperty Name="Ingresos" Relationship="Self.FK_PolizaIngreso" FromRole="Polizas" ToRole="Ingresos" />
           <NavigationProperty Name="Afianzado" Relationship="PGJSistemaPolizasModel.PolizasAfianzados" FromRole="Polizas" ToRole="Afianzados" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="true" Precision="18" Scale="2" DefaultValue="0" />
         </EntityType>
         <Association Name="FK_AfianzadoraPoliza">
           <End Role="Afianzadoras" Type="Self.Afianzadoras" Multiplicity="1" />
@@ -707,6 +709,7 @@
           <ScalarProperty Name="AfianzadoraId" ColumnName="AfianzadoraId" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="FechaDeAlta" ColumnName="FechaDeAlta" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

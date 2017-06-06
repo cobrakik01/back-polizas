@@ -11,7 +11,7 @@ namespace Com.PGJ.SistemaPolizas.Service
     public class PolizasService
     {
 
-        public PolizaDto Save(string userId, PolizaDto _polizaDto, DepositanteDto depositanteDto, AfianzadoDto afianzadoDto, AfianzadoraDto afianzadoraDto, decimal cantidad)
+        public PolizaDto Save(string userId, PolizaDto _polizaDto, DepositanteDto depositanteDto, AfianzadoDto afianzadoDto, AfianzadoraDto afianzadoraDto)
         {
             DateTime _createdAt = DateTime.Now;
             Polizas poliza = PolizaDto.ToUnMap(_polizaDto);
@@ -28,17 +28,21 @@ namespace Com.PGJ.SistemaPolizas.Service
                     db.Afianzados.Add(afianzado);
                     poliza.FechaDeAlta = _createdAt;
 
+                    /*
                     Ingresos ingreso = new Ingresos();
                     ingreso.Cantidad = cantidad;
                     ingreso.FechaDeIngreso = _createdAt;
                     ingreso.Descripcion = poliza.Descripcion;
+                    */
 
                     afianzadora.Polizas.Add(poliza);
                     afianzado.Polizas.Add(poliza);
                     afianzado.Depositantes.Add(depositante);
+                    /*
                     poliza.Ingresos.Add(ingreso);
                     depositante.Ingresos.Add(ingreso);
                     _currentUser.Ingresos.Add(ingreso);
+                    */
 
                     int n = db.SaveChanges();
                     transaction.Commit();
@@ -89,7 +93,7 @@ namespace Com.PGJ.SistemaPolizas.Service
                 poliza.AfianzadoraId = poliza.Afianzadoras.Id;
                 db.Entry<Polizas>(poliza).State = System.Data.Entity.EntityState.Modified;
                 int nModified = db.SaveChanges();
-                if(nModified > 0)
+                if (nModified > 0)
                 {
                     return request;
                 }
@@ -137,6 +141,7 @@ namespace Com.PGJ.SistemaPolizas.Service
                     .Select(e => new
                     {
                         Id = e.Id,
+                        Cantidad = e.Cantidad,
                         Afianzado = new AfianzadoDto
                         {
                             Id = e.Afianzado.Id,
@@ -156,22 +161,10 @@ namespace Com.PGJ.SistemaPolizas.Service
                         Descripcion = e.Descripcion,
                         FechaDeAlta = e.FechaDeAlta,
                         IngresosCount = e.Ingresos.Count,
-                        TotalIngresos = e.Ingresos.Sum(ingreso => ingreso.Cantidad)
-                    })
-                    .ToList()
-                    .Select(e => new SearchPolizasResponse
-                    {
-                        Id = e.Id,
-                        Afianzado = e.Afianzado,
-                        Afianzadora = e.Afianzadora,
-                        AfianzadoId = e.Afianzado.Id,
-                        AfianzadoraId = e.AfianzadoraId,
-                        AveriguacionPrevia = e.AveriguacionPrevia,
-                        Descripcion = e.Descripcion,
-                        FechaDeAlta = e.FechaDeAlta,
-                        IngresosCount = e.IngresosCount,
-                        TotalIngresos = e.TotalIngresos
+                        //TotalIngresos = (decimal?)e.Ingresos.Sum(ingreso => ingreso.Cantidad)
+                        TotalIngresos = (decimal?)(from ing in db.Ingresos where ing.PolizaId == e.Id select new { Cantidad = ing.Cantidad }).Sum(ing => ing.Cantidad)
                     });
+                    //.ToList();
 
                 if (filterObject != null)
                 {
@@ -201,6 +194,10 @@ namespace Com.PGJ.SistemaPolizas.Service
                     if (filterObject.TotalIngresos > 0)
                     {
                         query = query.Where(e => e.TotalIngresos >= filterObject.TotalIngresos);
+                    }
+                    if (filterObject.Cantidad > 0)
+                    {
+                        query = query.Where(e => e.Cantidad >= filterObject.Cantidad);
                     }
                 }
 
@@ -247,6 +244,16 @@ namespace Com.PGJ.SistemaPolizas.Service
                             query = query.OrderByDescending(e => e.FechaDeAlta);
                         }
                         break;
+                    case "Cantidad":
+                        if (sorting == "asc")
+                        {
+                            query = query.OrderBy(e => e.Cantidad);
+                        }
+                        else
+                        {
+                            query = query.OrderByDescending(e => e.Cantidad);
+                        }
+                        break;
                     case "TotalIngresos":
                         if (sorting == "asc")
                         {
@@ -258,7 +265,21 @@ namespace Com.PGJ.SistemaPolizas.Service
                         }
                         break;
                 }
-                List<SearchPolizasResponse> listModel = query.ToList();
+                List<SearchPolizasResponse> listModel = query.ToList()
+                    .Select(e => new SearchPolizasResponse
+                    {
+                        Id = e.Id,
+                        Afianzado = e.Afianzado,
+                        Afianzadora = e.Afianzadora,
+                        AfianzadoId = e.Afianzado.Id,
+                        AfianzadoraId = e.AfianzadoraId,
+                        AveriguacionPrevia = e.AveriguacionPrevia,
+                        Descripcion = e.Descripcion,
+                        FechaDeAlta = e.FechaDeAlta,
+                        IngresosCount = e.IngresosCount,
+                        TotalIngresos = e.TotalIngresos.GetValueOrDefault(),
+                        Cantidad = e.Cantidad.GetValueOrDefault()
+                    }).ToList();
                 return listModel;
             }
         }
@@ -283,6 +304,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         public AfianzadoraDto Afianzadora { get; set; }
         public AfianzadoDto Afianzado { get; set; }
         public string FechaDeAlta { get; set; }
+        public decimal? Cantidad { get; set; }
     }
 
     public class SearchPolizasResponse
@@ -298,6 +320,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         public string Descripcion { get; internal set; }
         public int IngresosCount { get; internal set; }
         public decimal? TotalIngresos { get; internal set; }
+        public decimal? Cantidad { get; internal set; }
     }
 
     public class PolizasCreateRequest
@@ -306,7 +329,6 @@ namespace Com.PGJ.SistemaPolizas.Service
         public AfianzadoDto afianzado { get; set; }
         public PolizaDto poliza { get; set; }
         public AfianzadoraDto afianzadora { get; set; }
-        public decimal cantidad { get; set; }
     }
 
     public class SearchIngresoRequest

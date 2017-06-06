@@ -17,6 +17,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Polizas()
         {
+            this.Cantidad = 0m;
             this.Ingresos = new HashSet<Ingresos>();
         }
     
@@ -25,6 +26,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         public int AfianzadoraId { get; set; }
         public string Descripcion { get; set; }
         public System.DateTime FechaDeAlta { get; set; }
+        public Nullable<decimal> Cantidad { get; set; }
     
         public virtual Afianzadoras Afianzadoras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

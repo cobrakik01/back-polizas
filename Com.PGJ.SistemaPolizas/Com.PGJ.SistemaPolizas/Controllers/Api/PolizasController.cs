@@ -34,7 +34,6 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             AfianzadoDto afianzado = request.afianzado;
             PolizaDto poliza = request.poliza;
             AfianzadoraDto afianzadora = request.afianzadora;
-            decimal cantidad = request.cantidad;
 
             try
             {
@@ -43,7 +42,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
                 if (service.ExisteAveriguacionPrevia(poliza.AveriguacionPrevia))
                     return Ok(new { Message = new { Type = "warning", Title = "Cuidado!", Message = string.Format("La averiguación previa {0} ya existe.", poliza.AveriguacionPrevia) }, SingleData = new { Afianzado = service.ExisteAfianzado(afianzado), AveriguacionPrevia = service.ExisteAveriguacionPrevia(poliza.AveriguacionPrevia) } });
 
-                PolizaDto polizaResult = service.Save(User.Identity.GetUserId(), poliza, depositante, afianzado, afianzadora, cantidad);
+                PolizaDto polizaResult = service.Save(User.Identity.GetUserId(), poliza, depositante, afianzado, afianzadora);
                 if (polizaResult != null)
                     return Ok(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("La Poliza se dio de alta correctamente.") } });
             }
@@ -76,7 +75,7 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [HttpPatch]
         [Route()]
-        public IHttpActionResult SaveIngresos(PolizaDto request)
+        public IHttpActionResult Update(PolizaDto request)
         {
             try
             {

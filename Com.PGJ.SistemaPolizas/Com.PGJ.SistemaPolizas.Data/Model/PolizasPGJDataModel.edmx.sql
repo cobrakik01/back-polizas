@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/14/2017 09:10:10
+-- Date Created: 06/05/2017 21:52:56
 -- Generated from EDMX file: C:\GitRepos\Federico\PGJ\back-polizas\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Data\Model\PolizasPGJDataModel.edmx
 -- --------------------------------------------------
 
@@ -22,9 +22,6 @@ IF OBJECT_ID(N'[dbo].[FK_AfianzadoraPoliza]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_AfianzadoDepositante]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Depositantes] DROP CONSTRAINT [FK_AfianzadoDepositante];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AfianzadoPoliza]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Afianzados] DROP CONSTRAINT [FK_AfianzadoPoliza];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AreaDetalleUsuario]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DetallesUsuarios] DROP CONSTRAINT [FK_AreaDetalleUsuario];
@@ -49,6 +46,9 @@ IF OBJECT_ID(N'[dbo].[FK_EgresoMinisterioPublico]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_PolizaIngreso]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Ingresos] DROP CONSTRAINT [FK_PolizaIngreso];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PolizasAfianzados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Polizas] DROP CONSTRAINT [FK_PolizasAfianzados];
 GO
 
 -- --------------------------------------------------
@@ -160,7 +160,7 @@ GO
 -- Creating table 'Ingresos'
 CREATE TABLE [dbo].[Ingresos] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Cantidad] decimal(18,0)  NOT NULL,
+    [Cantidad] decimal(18,2)  NOT NULL,
     [PolizaId] int  NOT NULL,
     [FechaDeIngreso] datetime  NOT NULL,
     [DepositanteId] int  NOT NULL,
@@ -185,6 +185,7 @@ CREATE TABLE [dbo].[Polizas] (
     [AfianzadoraId] int  NOT NULL,
     [Descripcion] nvarchar(max)  NULL,
     [FechaDeAlta] datetime  NOT NULL,
+    [Cantidad] decimal(18,2)  NULL DEFAULT 0,
     [Afianzado_Id] int  NULL
 );
 GO

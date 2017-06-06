@@ -14,6 +14,7 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public string AveriguacionPrevia { get; set; }
         public int AfianzadoraId { get; set; }
         public string Descripcion { get; set; }
+        public decimal? Cantidad { get; set; }
         public System.DateTime FechaDeAlta { get; set; }
 
         public AfianzadoraDto Afianzadoras { get; set; }
