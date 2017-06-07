@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AfianzadorasService.cs" />
     <Compile Include="AfianzadosService.cs" />
+    <Compile Include="MinisteriosService.cs" />
     <Compile Include="AreasService.cs" />
     <Compile Include="AutoridadesService.cs" />
     <Compile Include="Dto\AfianzadoDto.cs" />
