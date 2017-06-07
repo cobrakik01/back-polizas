@@ -17,15 +17,12 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Autoridads()
         {
-            this.Egresos = new HashSet<Egresos>();
             this.MinisteriosPublicos = new HashSet<MinisteriosPublicos>();
         }
     
         public int Id { get; set; }
         public string Nombre { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Egresos> Egresos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MinisteriosPublicos> MinisteriosPublicos { get; set; }
     }

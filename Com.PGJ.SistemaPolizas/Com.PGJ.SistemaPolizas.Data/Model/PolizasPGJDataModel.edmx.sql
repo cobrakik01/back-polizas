@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/05/2017 21:52:56
+-- Date Created: 06/07/2017 16:01:40
 -- Generated from EDMX file: C:\GitRepos\Federico\PGJ\back-polizas\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Data\Model\PolizasPGJDataModel.edmx
 -- --------------------------------------------------
 
@@ -26,9 +26,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AreaDetalleUsuario]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DetallesUsuarios] DROP CONSTRAINT [FK_AreaDetalleUsuario];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AutoridadEgreso]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Egresos] DROP CONSTRAINT [FK_AutoridadEgreso];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AutoridadMinisterioPublico]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MinisteriosPublicos] DROP CONSTRAINT [FK_AutoridadMinisterioPublico];
 GO
@@ -41,14 +38,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_DetalleUsuarioIngreso]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Ingresos] DROP CONSTRAINT [FK_DetalleUsuarioIngreso];
 GO
-IF OBJECT_ID(N'[dbo].[FK_EgresoMinisterioPublico]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MinisteriosPublicos] DROP CONSTRAINT [FK_EgresoMinisterioPublico];
-GO
 IF OBJECT_ID(N'[dbo].[FK_PolizaIngreso]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Ingresos] DROP CONSTRAINT [FK_PolizaIngreso];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PolizasAfianzados]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Polizas] DROP CONSTRAINT [FK_PolizasAfianzados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MinisteriosPublicosEgresos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Egresos] DROP CONSTRAINT [FK_MinisteriosPublicosEgresos];
 GO
 
 -- --------------------------------------------------
@@ -149,11 +146,11 @@ GO
 -- Creating table 'Egresos'
 CREATE TABLE [dbo].[Egresos] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [AutoridadId] int  NOT NULL,
     [FechaDeEgreso] datetime  NOT NULL,
-    [Cantidad] decimal(18,0)  NOT NULL,
+    [Cantidad] decimal(18,2)  NOT NULL,
     [DetalleUsuarioId] int  NOT NULL,
-    [Descripcion] nvarchar(max)  NULL
+    [Descripcion] nvarchar(max)  NULL,
+    [MinisteriosPublicosId] int  NOT NULL
 );
 GO
 
@@ -173,8 +170,7 @@ GO
 CREATE TABLE [dbo].[MinisteriosPublicos] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nombre] nvarchar(max)  NOT NULL,
-    [AutoridadId] int  NULL,
-    [EgresoId] int  NULL
+    [AutoridadId] int  NULL
 );
 GO
 
@@ -185,7 +181,7 @@ CREATE TABLE [dbo].[Polizas] (
     [AfianzadoraId] int  NOT NULL,
     [Descripcion] nvarchar(max)  NULL,
     [FechaDeAlta] datetime  NOT NULL,
-    [Cantidad] decimal(18,2)  NULL DEFAULT 0,
+    [Cantidad] decimal(18,2)  NULL,
     [Afianzado_Id] int  NULL
 );
 GO
@@ -303,21 +299,6 @@ ON [dbo].[DetallesUsuarios]
     ([AreaId]);
 GO
 
--- Creating foreign key on [AutoridadId] in table 'Egresos'
-ALTER TABLE [dbo].[Egresos]
-ADD CONSTRAINT [FK_AutoridadEgreso]
-    FOREIGN KEY ([AutoridadId])
-    REFERENCES [dbo].[Autoridads]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AutoridadEgreso'
-CREATE INDEX [IX_FK_AutoridadEgreso]
-ON [dbo].[Egresos]
-    ([AutoridadId]);
-GO
-
 -- Creating foreign key on [AutoridadId] in table 'MinisteriosPublicos'
 ALTER TABLE [dbo].[MinisteriosPublicos]
 ADD CONSTRAINT [FK_AutoridadMinisterioPublico]
@@ -378,21 +359,6 @@ ON [dbo].[Ingresos]
     ([DetalleUsuarioId]);
 GO
 
--- Creating foreign key on [EgresoId] in table 'MinisteriosPublicos'
-ALTER TABLE [dbo].[MinisteriosPublicos]
-ADD CONSTRAINT [FK_EgresoMinisterioPublico]
-    FOREIGN KEY ([EgresoId])
-    REFERENCES [dbo].[Egresos]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_EgresoMinisterioPublico'
-CREATE INDEX [IX_FK_EgresoMinisterioPublico]
-ON [dbo].[MinisteriosPublicos]
-    ([EgresoId]);
-GO
-
 -- Creating foreign key on [PolizaId] in table 'Ingresos'
 ALTER TABLE [dbo].[Ingresos]
 ADD CONSTRAINT [FK_PolizaIngreso]
@@ -421,6 +387,21 @@ GO
 CREATE INDEX [IX_FK_PolizasAfianzados]
 ON [dbo].[Polizas]
     ([Afianzado_Id]);
+GO
+
+-- Creating foreign key on [MinisteriosPublicosId] in table 'Egresos'
+ALTER TABLE [dbo].[Egresos]
+ADD CONSTRAINT [FK_MinisteriosPublicosEgresos]
+    FOREIGN KEY ([MinisteriosPublicosId])
+    REFERENCES [dbo].[MinisteriosPublicos]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MinisteriosPublicosEgresos'
+CREATE INDEX [IX_FK_MinisteriosPublicosEgresos]
+ON [dbo].[Egresos]
+    ([MinisteriosPublicosId]);
 GO
 
 -- --------------------------------------------------

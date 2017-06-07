@@ -28,10 +28,6 @@
       <End Role="Areas" EntitySet="Areas" />
       <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
     </AssociationSet>
-    <AssociationSet Name="FK_AutoridadEgreso" Association="PGJSistemaPolizasModel.Store.FK_AutoridadEgreso">
-      <End Role="Autoridads" EntitySet="Autoridads" />
-      <End Role="Egresos" EntitySet="Egresos" />
-    </AssociationSet>
     <AssociationSet Name="FK_AutoridadMinisterioPublico" Association="PGJSistemaPolizasModel.Store.FK_AutoridadMinisterioPublico">
       <End Role="Autoridads" EntitySet="Autoridads" />
       <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
@@ -48,10 +44,6 @@
       <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
       <End Role="Ingresos" EntitySet="Ingresos" />
     </AssociationSet>
-    <AssociationSet Name="FK_EgresoMinisterioPublico" Association="PGJSistemaPolizasModel.Store.FK_EgresoMinisterioPublico">
-      <End Role="Egresos" EntitySet="Egresos" />
-      <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
-    </AssociationSet>
     <AssociationSet Name="FK_PolizaIngreso" Association="PGJSistemaPolizasModel.Store.FK_PolizaIngreso">
       <End Role="Polizas" EntitySet="Polizas" />
       <End Role="Ingresos" EntitySet="Ingresos" />
@@ -59,6 +51,10 @@
     <AssociationSet Name="PolizasAfianzados" Association="PGJSistemaPolizasModel.Store.PolizasAfianzados">
       <End Role="Polizas" EntitySet="Polizas" />
       <End Role="Afianzados" EntitySet="Afianzados" />
+    </AssociationSet>
+    <AssociationSet Name="MinisteriosPublicosEgresos" Association="PGJSistemaPolizasModel.Store.MinisteriosPublicosEgresos">
+      <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
+      <End Role="Egresos" EntitySet="Egresos" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Afianzadoras">
@@ -122,11 +118,11 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AutoridadId" Type="int" Nullable="false" />
     <Property Name="FechaDeEgreso" Type="datetime" Nullable="false" />
-    <Property Name="Cantidad" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Cantidad" Type="decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="DetalleUsuarioId" Type="int" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MinisteriosPublicosId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Ingresos">
     <Key>
@@ -147,7 +143,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AutoridadId" Type="int" Nullable="true" />
-    <Property Name="EgresoId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Polizas">
     <Key>
@@ -158,7 +153,7 @@
     <Property Name="AfianzadoraId" Type="int" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
     <Property Name="FechaDeAlta" Type="datetime" Nullable="false" />
-    <Property Name="Cantidad" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="Cantidad" Type="decimal" Nullable="true" DefaultValue="0" Precision="18" Scale="2" />
     <Property Name="Afianzado_Id" Type="int" Nullable="true" />
   </EntityType>
   <Association Name="FK_AfianzadoraPoliza">
@@ -194,18 +189,6 @@
       </Principal>
       <Dependent Role="DetallesUsuarios">
         <PropertyRef Name="AreaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AutoridadEgreso">
-    <End Role="Autoridads" Type="PGJSistemaPolizasModel.Store.Autoridads" Multiplicity="1" />
-    <End Role="Egresos" Type="PGJSistemaPolizasModel.Store.Egresos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Autoridads">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Egresos">
-        <PropertyRef Name="AutoridadId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -257,18 +240,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_EgresoMinisterioPublico">
-    <End Role="Egresos" Type="PGJSistemaPolizasModel.Store.Egresos" Multiplicity="0..1" />
-    <End Role="MinisteriosPublicos" Type="PGJSistemaPolizasModel.Store.MinisteriosPublicos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Egresos">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MinisteriosPublicos">
-        <PropertyRef Name="EgresoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PolizaIngreso">
     <End Role="Polizas" Type="PGJSistemaPolizasModel.Store.Polizas" Multiplicity="1" />
     <End Role="Ingresos" Type="PGJSistemaPolizasModel.Store.Ingresos" Multiplicity="*" />
@@ -290,6 +261,18 @@
       </Principal>
       <Dependent Role="Polizas">
         <PropertyRef Name="Afianzado_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MinisteriosPublicosEgresos">
+    <End Role="MinisteriosPublicos" Type="PGJSistemaPolizasModel.Store.MinisteriosPublicos" Multiplicity="1" />
+    <End Role="Egresos" Type="PGJSistemaPolizasModel.Store.Egresos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MinisteriosPublicos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Egresos">
+        <PropertyRef Name="MinisteriosPublicosId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -331,7 +314,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Egresos" Relationship="Self.FK_AutoridadEgreso" FromRole="Autoridads" ToRole="Egresos" />
           <NavigationProperty Name="MinisteriosPublicos" Relationship="Self.FK_AutoridadMinisterioPublico" FromRole="Autoridads" ToRole="MinisteriosPublicos" />
         </EntityType>
         <EntityType Name="Depositantes">
@@ -369,14 +351,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AutoridadId" Type="Int32" Nullable="false" />
           <Property Name="FechaDeEgreso" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DetalleUsuarioId" Type="Int32" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Autoridads" Relationship="Self.FK_AutoridadEgreso" FromRole="Egresos" ToRole="Autoridads" />
           <NavigationProperty Name="DetallesUsuarios" Relationship="Self.FK_DetalleUsuarioEgreso" FromRole="Egresos" ToRole="DetallesUsuarios" />
-          <NavigationProperty Name="MinisteriosPublicos" Relationship="Self.FK_EgresoMinisterioPublico" FromRole="Egresos" ToRole="MinisteriosPublicos" />
+          <NavigationProperty Name="MinisteriosPublicos" Relationship="PGJSistemaPolizasModel.MinisteriosPublicosEgresos" FromRole="Egresos" ToRole="MinisteriosPublicos" />
+          <Property Name="MinisteriosPublicosId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Ingresos">
           <Key>
@@ -400,9 +381,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AutoridadId" Type="Int32" />
-          <Property Name="EgresoId" Type="Int32" />
           <NavigationProperty Name="Autoridads" Relationship="Self.FK_AutoridadMinisterioPublico" FromRole="MinisteriosPublicos" ToRole="Autoridads" />
-          <NavigationProperty Name="Egresos" Relationship="Self.FK_EgresoMinisterioPublico" FromRole="MinisteriosPublicos" ToRole="Egresos" />
+          <NavigationProperty Name="Egresos" Relationship="PGJSistemaPolizasModel.MinisteriosPublicosEgresos" FromRole="MinisteriosPublicos" ToRole="Egresos" />
         </EntityType>
         <EntityType Name="Polizas">
           <Key>
@@ -454,18 +434,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AutoridadEgreso">
-          <End Role="Autoridads" Type="Self.Autoridads" Multiplicity="1" />
-          <End Role="Egresos" Type="Self.Egresos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Autoridads">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Egresos">
-              <PropertyRef Name="AutoridadId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_AutoridadMinisterioPublico">
           <End Role="Autoridads" Type="Self.Autoridads" Multiplicity="0..1" />
           <End Role="MinisteriosPublicos" Type="Self.MinisteriosPublicos" Multiplicity="*" />
@@ -514,18 +482,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EgresoMinisterioPublico">
-          <End Role="Egresos" Type="Self.Egresos" Multiplicity="0..1" />
-          <End Role="MinisteriosPublicos" Type="Self.MinisteriosPublicos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Egresos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MinisteriosPublicos">
-              <PropertyRef Name="EgresoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PolizaIngreso">
           <End Role="Polizas" Type="Self.Polizas" Multiplicity="1" />
           <End Role="Ingresos" Type="Self.Ingresos" Multiplicity="*" />
@@ -561,10 +517,6 @@
             <End Role="Areas" EntitySet="Areas" />
             <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
           </AssociationSet>
-          <AssociationSet Name="FK_AutoridadEgreso" Association="Self.FK_AutoridadEgreso">
-            <End Role="Autoridads" EntitySet="Autoridads" />
-            <End Role="Egresos" EntitySet="Egresos" />
-          </AssociationSet>
           <AssociationSet Name="FK_AutoridadMinisterioPublico" Association="Self.FK_AutoridadMinisterioPublico">
             <End Role="Autoridads" EntitySet="Autoridads" />
             <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
@@ -581,10 +533,6 @@
             <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
             <End Role="Ingresos" EntitySet="Ingresos" />
           </AssociationSet>
-          <AssociationSet Name="FK_EgresoMinisterioPublico" Association="Self.FK_EgresoMinisterioPublico">
-            <End Role="Egresos" EntitySet="Egresos" />
-            <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
-          </AssociationSet>
           <AssociationSet Name="FK_PolizaIngreso" Association="Self.FK_PolizaIngreso">
             <End Role="Polizas" EntitySet="Polizas" />
             <End Role="Ingresos" EntitySet="Ingresos" />
@@ -593,10 +541,26 @@
             <End Role="Polizas" EntitySet="Polizas" />
             <End Role="Afianzados" EntitySet="Afianzados" />
           </AssociationSet>
+          <AssociationSet Name="MinisteriosPublicosEgresos" Association="PGJSistemaPolizasModel.MinisteriosPublicosEgresos">
+            <End Role="MinisteriosPublicos" EntitySet="MinisteriosPublicos" />
+            <End Role="Egresos" EntitySet="Egresos" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="PolizasAfianzados">
           <End Type="PGJSistemaPolizasModel.Polizas" Role="Polizas" Multiplicity="*" />
           <End Type="PGJSistemaPolizasModel.Afianzados" Role="Afianzados" Multiplicity="0..1" />
+        </Association>
+        <Association Name="MinisteriosPublicosEgresos">
+          <End Type="PGJSistemaPolizasModel.MinisteriosPublicos" Role="MinisteriosPublicos" Multiplicity="1" />
+          <End Type="PGJSistemaPolizasModel.Egresos" Role="Egresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MinisteriosPublicos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Egresos">
+              <PropertyRef Name="MinisteriosPublicosId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -670,11 +634,11 @@
       <EntityTypeMapping TypeName="IsTypeOf(PGJSistemaPolizasModel.Egresos)">
         <MappingFragment StoreEntitySet="Egresos">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AutoridadId" ColumnName="AutoridadId" />
           <ScalarProperty Name="FechaDeEgreso" ColumnName="FechaDeEgreso" />
           <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
           <ScalarProperty Name="DetalleUsuarioId" ColumnName="DetalleUsuarioId" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="MinisteriosPublicosId" ColumnName="MinisteriosPublicosId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -697,7 +661,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="AutoridadId" ColumnName="AutoridadId" />
-          <ScalarProperty Name="EgresoId" ColumnName="EgresoId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

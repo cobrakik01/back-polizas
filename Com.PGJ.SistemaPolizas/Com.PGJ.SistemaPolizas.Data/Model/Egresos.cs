@@ -14,22 +14,14 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
     
     public partial class Egresos
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Egresos()
-        {
-            this.MinisteriosPublicos = new HashSet<MinisteriosPublicos>();
-        }
-    
         public int Id { get; set; }
-        public int AutoridadId { get; set; }
         public System.DateTime FechaDeEgreso { get; set; }
         public decimal Cantidad { get; set; }
         public int DetalleUsuarioId { get; set; }
         public string Descripcion { get; set; }
+        public int MinisteriosPublicosId { get; set; }
     
-        public virtual Autoridads Autoridads { get; set; }
         public virtual DetallesUsuarios DetallesUsuarios { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MinisteriosPublicos> MinisteriosPublicos { get; set; }
+        public virtual MinisteriosPublicos MinisteriosPublicos { get; set; }
     }
 }
