@@ -200,6 +200,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AfianzadorasController.cs" />
     <Compile Include="Controllers\Api\AfianzadosController.cs" />
+    <Compile Include="Controllers\Api\EgresosController.cs" />
     <Compile Include="Controllers\Api\MinisteriosController.cs" />
     <Compile Include="Controllers\Api\AreasController.cs" />
     <Compile Include="Controllers\Api\AutoridadesController.cs" />

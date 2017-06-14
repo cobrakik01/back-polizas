@@ -28,5 +28,13 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
             DetallesUsuarios model = TinyMapper.Map<DetallesUsuarios>(dto);
             return model;
         }
+
+        internal static DetalleUsuarioDto ToMap(DetallesUsuarios model)
+        {
+            if (model == null) return null;
+            TinyMapper.Bind<DetallesUsuarios, DetalleUsuarioDto>();
+            DetalleUsuarioDto dto = TinyMapper.Map<DetalleUsuarioDto>(model);
+            return dto;
+        }
     }
 }

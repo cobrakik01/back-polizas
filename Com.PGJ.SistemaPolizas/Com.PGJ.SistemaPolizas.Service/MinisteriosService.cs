@@ -39,8 +39,19 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                List<MinisteriosPublicos> listModel = db.MinisteriosPublicos.ToList();
-                return MinisterioPublicoDto.ToMap(listModel);
+                List<MinisterioPublicoDto> listModel = db.MinisteriosPublicos
+                    .Select(m => new MinisterioPublicoDto
+                    {
+                        Id = m.Id,
+                        AutoridadId = m.AutoridadId,
+                        Nombre = m.Nombre,
+                        Autoridad = m.Autoridad == null ? null : new AutoridadDto
+                        {
+                            Id = m.Autoridad.Id,
+                            Nombre = m.Autoridad.Nombre
+                        }
+                    }).ToList();
+                return listModel;
             }
         }
 

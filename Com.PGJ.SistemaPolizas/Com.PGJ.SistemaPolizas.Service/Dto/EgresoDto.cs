@@ -11,15 +11,13 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
     public class EgresoDto
     {
         public int Id { get; set; }
-        public int AutoridadId { get; set; }
         public DateTime FechaDeEgreso { get; set; }
         public decimal Cantidad { get; set; }
         public int DetalleUsuarioId { get; set; }
         public string Descripcion { get; set; }
 
-        public AutoridadDto Autoridads { get; set; }
         public DetalleUsuarioDto DetallesUsuarios { get; set; }
-        public List<MinisteriosPublicos> MinisteriosPublicos { get; set; }
+        public MinisterioPublicoDto MinisteriosPublicos { get; set; }
 
         internal static List<EgresoDto> ToMap(List<Egresos> entityList)
         {
