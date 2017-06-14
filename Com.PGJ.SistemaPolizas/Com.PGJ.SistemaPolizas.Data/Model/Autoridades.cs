@@ -12,10 +12,10 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Autoridads
+    public partial class Autoridades
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Autoridads()
+        public Autoridades()
         {
             this.MinisteriosPublicos = new HashSet<MinisteriosPublicos>();
         }

@@ -13,24 +13,24 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-        internal static List<AutoridadDto> ToMap(List<Autoridads> listModel)
+        internal static List<AutoridadDto> ToMap(List<Autoridades> listModel)
         {
             return (from a in listModel select ToMap(a)).ToList();
         }
 
-        internal static AutoridadDto ToMap(Autoridads model)
+        internal static AutoridadDto ToMap(Autoridades model)
         {
             if (model == null) return null;
-            TinyMapper.Bind<Autoridads, AutoridadDto>();
+            TinyMapper.Bind<Autoridades, AutoridadDto>();
             AutoridadDto dto = TinyMapper.Map<AutoridadDto>(model);
             return dto;
         }
 
-        internal static Autoridads ToUnMap(AutoridadDto dto)
+        internal static Autoridades ToUnMap(AutoridadDto dto)
         {
             if (dto == null) return null;
-            TinyMapper.Bind<AutoridadDto, Autoridads>();
-            Autoridads model = TinyMapper.Map<Autoridads>(dto);
+            TinyMapper.Bind<AutoridadDto, Autoridades>();
+            Autoridades model = TinyMapper.Map<Autoridades>(dto);
             return model;
         }
     }

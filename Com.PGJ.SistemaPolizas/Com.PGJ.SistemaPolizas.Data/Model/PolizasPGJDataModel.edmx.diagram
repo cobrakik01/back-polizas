@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Afianzadoras" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Afianzados" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Areas" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PGJSistemaPolizasModel.Autoridads" Width="1.75" PointX="14.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="PGJSistemaPolizasModel.Autoridades" Width="1.75" PointX="14.25" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Depositantes" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.DetallesUsuarios" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PGJSistemaPolizasModel.Egresos" Width="1.5" PointX="12" PointY="6.5" IsExpanded="true" />

@@ -13,7 +13,8 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int? AutoridadId { get; set; }
-        public int? EgresoId { get; set; }
+        public AutoridadDto Autoridad { get; set; }
+        public List<EgresoDto> Egresos { get; set; }
 
         internal static List<MinisterioPublicoDto> ToMap(List<MinisteriosPublicos> entityList) {
             List<MinisterioPublicoDto> list = (from entity in entityList select ToMap(entity)).ToList();

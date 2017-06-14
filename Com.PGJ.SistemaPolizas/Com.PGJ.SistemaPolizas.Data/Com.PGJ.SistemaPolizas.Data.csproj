@@ -60,7 +60,7 @@
     <Compile Include="Model\Areas.cs">
       <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Autoridads.cs">
+    <Compile Include="Model\Autoridades.cs">
       <DependentUpon>PolizasPGJDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Depositantes.cs">

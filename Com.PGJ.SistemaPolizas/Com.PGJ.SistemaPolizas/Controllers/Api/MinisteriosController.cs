@@ -1,6 +1,7 @@
 ﻿using Com.PGJ.SistemaPolizas.Models;
 using Com.PGJ.SistemaPolizas.Service;
 using Com.PGJ.SistemaPolizas.Service.Dto;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -33,10 +34,11 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route()]
         [HttpGet]
-        public async Task<SearchResultViewModel> Search(int page = 1, int count = 10, string sorting = "asc", string filter = "")
+        public async Task<SearchResultViewModel> Search(string filterObject = "", int page = 1, int count = 10, string sortingField = "", string sorting = "asc")
         {
             SearchResultViewModel response = new SearchResultViewModel();
-            List<MinisterioPublicoDto> list = await service.FindByFilterAsync(sorting, filter);
+            MinisterioPublicoDto objFilterObject = JsonConvert.DeserializeObject<MinisterioPublicoDto>(filterObject);
+            List<MinisterioPublicoDto> list = await service.FindByFilterAsync(objFilterObject, sortingField, sorting);
             response.total = list.Count();
             response.result = list.ToPagedList(page, count);
             return response;
@@ -44,13 +46,13 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route()]
         [HttpPost]
-        public IHttpActionResult Save(MinisterioPublicoDto dto)
+        public IHttpActionResult Save(MinisterioCreateModel dto)
         {
             try
             {
-                MinisterioPublicoDto ministerio = service.Save(dto.Nombre);
+                MinisterioPublicoDto ministerio = service.Save(dto);
                 if (ministerio != null)
-                    return Ok(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El ministerio publico {0} se dio de alta correctamente.", ministerio.Nombre) } });
+                    return Ok(new { Message = new { Type = "success", Title = "Alta", Message = string.Format("El ministerio público {0} se dio de alta correctamente.", dto.Ministerio.Nombre) } });
             }
             catch (Exception ex)
             {

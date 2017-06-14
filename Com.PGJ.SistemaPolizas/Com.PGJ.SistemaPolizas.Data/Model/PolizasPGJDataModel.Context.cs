@@ -28,7 +28,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         public virtual DbSet<Afianzadoras> Afianzadoras { get; set; }
         public virtual DbSet<Afianzados> Afianzados { get; set; }
         public virtual DbSet<Areas> Areas { get; set; }
-        public virtual DbSet<Autoridads> Autoridads { get; set; }
+        public virtual DbSet<Autoridades> Autoridades { get; set; }
         public virtual DbSet<Depositantes> Depositantes { get; set; }
         public virtual DbSet<DetallesUsuarios> DetallesUsuarios { get; set; }
         public virtual DbSet<Egresos> Egresos { get; set; }

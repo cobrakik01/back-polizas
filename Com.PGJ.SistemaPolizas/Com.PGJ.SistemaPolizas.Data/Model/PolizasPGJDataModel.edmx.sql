@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/07/2017 16:01:40
+-- Date Created: 06/13/2017 20:46:06
 -- Generated from EDMX file: C:\GitRepos\Federico\PGJ\back-polizas\Com.PGJ.SistemaPolizas\Com.PGJ.SistemaPolizas.Data\Model\PolizasPGJDataModel.edmx
 -- --------------------------------------------------
 
@@ -61,8 +61,8 @@ GO
 IF OBJECT_ID(N'[dbo].[Areas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Areas];
 GO
-IF OBJECT_ID(N'[dbo].[Autoridads]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Autoridads];
+IF OBJECT_ID(N'[dbo].[Autoridades]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Autoridades];
 GO
 IF OBJECT_ID(N'[dbo].[Depositantes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Depositantes];
@@ -111,8 +111,8 @@ CREATE TABLE [dbo].[Areas] (
 );
 GO
 
--- Creating table 'Autoridads'
-CREATE TABLE [dbo].[Autoridads] (
+-- Creating table 'Autoridades'
+CREATE TABLE [dbo].[Autoridades] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nombre] nvarchar(max)  NOT NULL
 );
@@ -208,9 +208,9 @@ ADD CONSTRAINT [PK_Areas]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Autoridads'
-ALTER TABLE [dbo].[Autoridads]
-ADD CONSTRAINT [PK_Autoridads]
+-- Creating primary key on [Id] in table 'Autoridades'
+ALTER TABLE [dbo].[Autoridades]
+ADD CONSTRAINT [PK_Autoridades]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -303,7 +303,7 @@ GO
 ALTER TABLE [dbo].[MinisteriosPublicos]
 ADD CONSTRAINT [FK_AutoridadMinisterioPublico]
     FOREIGN KEY ([AutoridadId])
-    REFERENCES [dbo].[Autoridads]
+    REFERENCES [dbo].[Autoridades]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO

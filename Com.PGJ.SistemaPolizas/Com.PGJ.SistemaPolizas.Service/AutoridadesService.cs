@@ -20,7 +20,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                List<Autoridads> listModel = db.Autoridads.ToList();
+                List<Autoridades> listModel = db.Autoridades.ToList();
                 return AutoridadDto.ToMap(listModel);
             }
         }
@@ -34,7 +34,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                var query = db.Autoridads.Where(e => e != null);
+                var query = db.Autoridades.Where(e => e != null);
                 if (!string.IsNullOrEmpty(filter))
                     query = query.Where(e => e.Nombre.Contains(filter));
 
@@ -47,7 +47,7 @@ namespace Com.PGJ.SistemaPolizas.Service
                         query = query.OrderByDescending(e => e.Nombre);
                         break;
                 }
-                List<Autoridads> listModel = query.ToList();
+                List<Autoridades> listModel = query.ToList();
                 return AutoridadDto.ToMap(listModel);
             }
         }
@@ -66,9 +66,9 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                Autoridads model = new Autoridads();
+                Autoridades model = new Autoridades();
                 model.Nombre = nombre;
-                db.Autoridads.Add(model);
+                db.Autoridades.Add(model);
                 int n = db.SaveChanges();
                 if (n > 0)
                     return AutoridadDto.ToMap(model);
@@ -81,7 +81,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                Autoridads aexists = db.Autoridads.Where(e => e.Nombre.Contains(nombre)).FirstOrDefault();
+                Autoridades aexists = db.Autoridades.Where(e => e.Nombre.Contains(nombre)).FirstOrDefault();
                 return aexists != null;
             }
         }
@@ -90,8 +90,8 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                Autoridads model = AutoridadDto.ToUnMap(dto);
-                db.Entry<Autoridads>(model).State = System.Data.Entity.EntityState.Modified;
+                Autoridades model = AutoridadDto.ToUnMap(dto);
+                db.Entry<Autoridades>(model).State = System.Data.Entity.EntityState.Modified;
                 int n = db.SaveChanges();
                 if (n > 0)
                     return dto;
@@ -104,10 +104,10 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                Autoridads model = db.Autoridads.Where(e => e.Id == id).FirstOrDefault();
+                Autoridades model = db.Autoridades.Where(e => e.Id == id).FirstOrDefault();
                 if (model == null)
                     return false;
-                db.Autoridads.Remove(model);
+                db.Autoridades.Remove(model);
                 int n = db.SaveChanges();
                 return n > 0;
             }

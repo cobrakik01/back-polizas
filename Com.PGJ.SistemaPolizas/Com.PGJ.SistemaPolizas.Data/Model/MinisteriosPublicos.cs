@@ -24,7 +24,7 @@ namespace Com.PGJ.SistemaPolizas.Data.Model
         public string Nombre { get; set; }
         public Nullable<int> AutoridadId { get; set; }
     
-        public virtual Autoridads Autoridads { get; set; }
+        public virtual Autoridades Autoridad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Egresos> Egresos { get; set; }
     }

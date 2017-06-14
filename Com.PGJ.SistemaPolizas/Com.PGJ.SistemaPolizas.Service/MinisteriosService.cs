@@ -44,9 +44,9 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
-        public Task<List<MinisterioPublicoDto>> FindByFilterAsync(string sorting, string filter)
+        public Task<List<MinisterioPublicoDto>> FindByFilterAsync(MinisterioPublicoDto objFilterObject, string sortingField, string sorting)
         {
-            return Task.FromResult(FindByFilter(sorting, filter));
+            return Task.FromResult(FindByFilter(objFilterObject, sortingField, sorting));
         }
 
         public MinisterioPublicoDto Save(string nombre)
@@ -57,6 +57,31 @@ namespace Com.PGJ.SistemaPolizas.Service
                 dtoResult = _Save(nombre);
             }
             return dtoResult;
+        }
+
+        public MinisterioPublicoDto Save(MinisterioCreateModel createModel)
+        {
+            if (createModel.Ministerio == null)
+                throw new Exception("Es necesario especificar un ministerio público");
+            if (createModel.Autoridad == null)
+                throw new Exception("Es necesario especificar a una autoridad");
+            if (exists(createModel.Ministerio.Nombre))
+                throw new Exception(string.Format("El ministerio publico {0} ya existe.", createModel.Ministerio.Nombre));
+
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                Autoridades autoridad = db.Autoridades.Where(a => a.Nombre == createModel.Autoridad.Nombre).FirstOrDefault();
+                if (autoridad == null)
+                    throw new Exception(string.Format("La autoridad solicitada no existe {0} no existe.", createModel.Autoridad.Nombre));
+
+                MinisteriosPublicos ministerio = new MinisteriosPublicos();
+                ministerio.Nombre = createModel.Ministerio.Nombre;
+                autoridad.MinisteriosPublicos.Add(ministerio);
+                int nRows = db.SaveChanges();
+                if (nRows > 0)
+                    return MinisterioPublicoDto.ToMap(ministerio);
+            }
+            return null;
         }
 
         private MinisterioPublicoDto _Save(string nombre)
@@ -78,7 +103,7 @@ namespace Com.PGJ.SistemaPolizas.Service
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                MinisteriosPublicos aexists = db.MinisteriosPublicos.Where(e => e.Nombre.Contains(nombre)).FirstOrDefault();
+                MinisteriosPublicos aexists = db.MinisteriosPublicos.Where(e => e.Nombre.ToLower() == nombre.ToLower()).FirstOrDefault();
                 return aexists != null;
             }
         }
@@ -88,6 +113,7 @@ namespace Com.PGJ.SistemaPolizas.Service
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
                 MinisteriosPublicos model = MinisterioPublicoDto.ToUnMap(dto);
+                model.AutoridadId = model.Autoridad.Id;
                 db.Entry<MinisteriosPublicos>(model).State = System.Data.Entity.EntityState.Modified;
                 int n = db.SaveChanges();
                 if (n > 0)
@@ -110,26 +136,67 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
-        public List<MinisterioPublicoDto> FindByFilter(string sorting = "asc", string filter = "")
+        public List<MinisterioPublicoDto> FindByFilter(MinisterioPublicoDto filterObject, string sortingField, string sorting = "asc")
         {
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                var query = db.MinisteriosPublicos.Where(e => e != null);
-                if (!string.IsNullOrEmpty(filter))
-                    query = query.Where(e => e.Nombre.Contains(filter));
+                var query = (from m in db.MinisteriosPublicos select m);
 
-                switch (sorting)
+                if (filterObject != null)
                 {
-                    case "asc":
-                        query = query.OrderBy(e => e.Nombre);
+                    if (!string.IsNullOrEmpty(filterObject.Nombre))
+                    {
+                        query = query.Where(m => m.Nombre.ToLower().Contains(filterObject.Nombre.ToLower()));
+                    }
+                    if (filterObject.Autoridad != null && !string.IsNullOrEmpty(filterObject.Autoridad.Nombre))
+                    {
+                        query = query.Where(a => a.Autoridad.Nombre.ToLower().Contains(filterObject.Autoridad.Nombre.ToLower()));
+                    }
+                }
+
+                switch (sortingField)
+                {
+                    case "Autoridad.Nombre":
+                        if (sorting == "asc")
+                            query = query.OrderBy(e => e.Autoridad.Nombre);
+                        else
+                            query = query.OrderByDescending(e => e.Autoridad.Nombre);
                         break;
-                    case "desc":
-                        query = query.OrderByDescending(e => e.Nombre);
+                    case "Nombre":
+                    default:
+                        if (sorting == "asc")
+                            query = query.OrderBy(e => e.Nombre);
+                        else
+                            query = query.OrderByDescending(e => e.Nombre);
                         break;
                 }
-                List<MinisteriosPublicos> listModel = query.ToList();
-                return MinisterioPublicoDto.ToMap(listModel);
+
+                List<MinisterioPublicoDto> listModel = query.ToList().Select(m => new MinisterioPublicoDto
+                {
+
+                    Id = m.Id,
+                    Nombre = m.Nombre,
+                    AutoridadId = m.AutoridadId,
+                    Autoridad = m.Autoridad == null ? null : new AutoridadDto
+                    {
+                        Id = m.Autoridad.Id,
+                        Nombre = m.Autoridad.Nombre
+                    }
+                }).ToList();
+                return listModel;
             }
         }
+    }
+
+    public class MinisterioCreateModel
+    {
+        public MinisterioPublicoDto Ministerio { get; set; }
+        public AutoridadDto Autoridad { get; set; }
+    }
+
+    public class MinisterioSearchModel
+    {
+        public MinisterioPublicoDto Ministerio { get; set; }
+        public AutoridadDto Autoridad { get; set; }
     }
 }
