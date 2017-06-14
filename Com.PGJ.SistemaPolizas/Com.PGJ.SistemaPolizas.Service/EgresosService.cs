@@ -85,6 +85,17 @@ namespace Com.PGJ.SistemaPolizas.Service
             }
         }
 
+        public decimal GetTotalEgresos(string anio)
+        {
+            decimal total = 0;
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                decimal? d = (from i in db.Egresos where i.FechaDeEgreso.Year.ToString() == anio select (decimal?)i.Cantidad).Sum() ?? 0;
+                total = d.GetValueOrDefault();
+            }
+            return total;
+        }
+
         public decimal GetTotalEgresos()
         {
             decimal total = 0;

@@ -70,5 +70,13 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             decimal total = service.GetTotalEgresos();
             return Ok(total);
         }
+
+        [HttpGet]
+        [Route("{anio}/total")]
+        public IHttpActionResult Total(string anio)
+        {
+            decimal total = service.GetTotalEgresos(anio);
+            return Ok(total);
+        }
     }
 }

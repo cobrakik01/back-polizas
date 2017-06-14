@@ -14,9 +14,18 @@ namespace Com.PGJ.SistemaPolizas.Service
             decimal total = 0;
             using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
             {
-                // var TotalIngresos = db.Polizas.Sum(poliza => poliza.Ingresos != null ? poliza.Ingresos.Sum(ingreso => ingreso != null ? ingreso.Cantidad : 0) : 0);
-                // var s = db.Ingresos.Where(e => e != null).DefaultIfEmpty().Sum(e => e.Cantidad);
                 decimal? d = (from i in db.Ingresos select (decimal?)i.Cantidad).Sum() ?? 0;
+                total = d.GetValueOrDefault();
+            }
+            return total;
+        }
+
+        public decimal GetTotalIngresos(string anio)
+        {
+            decimal total = 0;
+            using (PGJSistemaPolizasEntities db = new PGJSistemaPolizasEntities())
+            {
+                decimal? d = (from i in db.Ingresos where i.FechaDeIngreso.Year.ToString() == anio select (decimal?)i.Cantidad).Sum() ?? 0;
                 total = d.GetValueOrDefault();
             }
             return total;
