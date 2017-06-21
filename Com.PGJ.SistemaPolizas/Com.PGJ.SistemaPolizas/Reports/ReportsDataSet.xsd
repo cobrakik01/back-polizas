@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ReportsDataSet" targetNamespace="http://tempuri.org/ReportsDataSet.xsd" xmlns:mstns="http://tempuri.org/ReportsDataSet.xsd" xmlns="http://tempuri.org/ReportsDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultConnection" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultConnection (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultConnection.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="EgresosReportTableAdapter" GeneratorDataComponentClassName="EgresosReportTableAdapter" Name="EgresosReport" UserDataComponentName="EgresosReportTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT 
+	    eg.[Id]
+      , eg.[FechaDeEgreso]
+      , eg.[Cantidad]
+      , eg.[Descripcion]
+      , eg.[MinisteriosPublicosId]
+	  , mi.Nombre as NombreMinisterio
+	  , mi.AutoridadId
+	  , au.Nombre as NombreAutoridad
+	  , eg.[DetalleUsuarioId]
+	  , u.Nombre as NombreUsuario
+	  , u.ApellidoMaterno as ApellidoMaternoUsuario
+	  , u.ApellidoPaterno as ApellidoPaternoUsuario
+	  , u.NumeroDeEmpleado as NumeroDeEmpleadoUsuario
+	  , u.AreaId as AreaIdUsuario
+	  , area.Nombre as NombreAreaUsuario
+  FROM [Egresos] eg
+  left join MinisteriosPublicos mi on mi.Id = eg.MinisteriosPublicosId
+  left join Autoridades au on au.Id = mi.AutoridadId
+  left join DetallesUsuarios u on u.Id = eg.DetalleUsuarioId
+  left join Areas area on area.Id = u.AreaId</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Id" DataSetColumn="Id" />
+              <Mapping SourceColumn="FechaDeEgreso" DataSetColumn="FechaDeEgreso" />
+              <Mapping SourceColumn="Cantidad" DataSetColumn="Cantidad" />
+              <Mapping SourceColumn="Descripcion" DataSetColumn="Descripcion" />
+              <Mapping SourceColumn="MinisteriosPublicosId" DataSetColumn="MinisteriosPublicosId" />
+              <Mapping SourceColumn="NombreMinisterio" DataSetColumn="NombreMinisterio" />
+              <Mapping SourceColumn="AutoridadId" DataSetColumn="AutoridadId" />
+              <Mapping SourceColumn="NombreAutoridad" DataSetColumn="NombreAutoridad" />
+              <Mapping SourceColumn="DetalleUsuarioId" DataSetColumn="DetalleUsuarioId" />
+              <Mapping SourceColumn="NombreUsuario" DataSetColumn="NombreUsuario" />
+              <Mapping SourceColumn="ApellidoMaternoUsuario" DataSetColumn="ApellidoMaternoUsuario" />
+              <Mapping SourceColumn="ApellidoPaternoUsuario" DataSetColumn="ApellidoPaternoUsuario" />
+              <Mapping SourceColumn="NumeroDeEmpleadoUsuario" DataSetColumn="NumeroDeEmpleadoUsuario" />
+              <Mapping SourceColumn="AreaIdUsuario" DataSetColumn="AreaIdUsuario" />
+              <Mapping SourceColumn="NombreAreaUsuario" DataSetColumn="NombreAreaUsuario" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByAnio" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByAnio" GeneratorSourceName="FillByAnio" GetMethodModifier="Public" GetMethodName="GetDataByAnio" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByAnio" UserSourceName="FillByAnio">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        eg.Id, eg.FechaDeEgreso, eg.Cantidad, eg.Descripcion, eg.MinisteriosPublicosId, mi.Nombre AS NombreMinisterio, mi.AutoridadId, au.Nombre AS NombreAutoridad, eg.DetalleUsuarioId, 
+                         u.Nombre AS NombreUsuario, u.ApellidoMaterno AS ApellidoMaternoUsuario, u.ApellidoPaterno AS ApellidoPaternoUsuario, u.NumeroDeEmpleado AS NumeroDeEmpleadoUsuario, u.AreaId AS AreaIdUsuario, 
+                         area.Nombre AS NombreAreaUsuario
+FROM            Egresos AS eg LEFT OUTER JOIN
+                         MinisteriosPublicos AS mi ON mi.Id = eg.MinisteriosPublicosId LEFT OUTER JOIN
+                         Autoridades AS au ON au.Id = mi.AutoridadId LEFT OUTER JOIN
+                         DetallesUsuarios AS u ON u.Id = eg.DetalleUsuarioId LEFT OUTER JOIN
+                         Areas AS area ON area.Id = u.AreaId
+WHERE        (DATEPART(yyyy, eg.FechaDeEgreso) = @Anio)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="Anio" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@Anio" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ReportsDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ReportsDataSet" msprop:Generator_UserDSName="ReportsDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="EgresosReport" msprop:Generator_TableClassName="EgresosReportDataTable" msprop:Generator_TableVarName="tableEgresosReport" msprop:Generator_TablePropName="EgresosReport" msprop:Generator_RowDeletingName="EgresosReportRowDeleting" msprop:Generator_RowChangingName="EgresosReportRowChanging" msprop:Generator_RowEvHandlerName="EgresosReportRowChangeEventHandler" msprop:Generator_RowDeletedName="EgresosReportRowDeleted" msprop:Generator_UserTableName="EgresosReport" msprop:Generator_RowChangedName="EgresosReportRowChanged" msprop:Generator_RowEvArgName="EgresosReportRowChangeEvent" msprop:Generator_RowClassName="EgresosReportRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
+              <xs:element name="FechaDeEgreso" msprop:Generator_ColumnVarNameInTable="columnFechaDeEgreso" msprop:Generator_ColumnPropNameInRow="FechaDeEgreso" msprop:Generator_ColumnPropNameInTable="FechaDeEgresoColumn" msprop:Generator_UserColumnName="FechaDeEgreso" type="xs:dateTime" />
+              <xs:element name="Cantidad" msprop:Generator_ColumnVarNameInTable="columnCantidad" msprop:Generator_ColumnPropNameInRow="Cantidad" msprop:Generator_ColumnPropNameInTable="CantidadColumn" msprop:Generator_UserColumnName="Cantidad" type="xs:decimal" />
+              <xs:element name="Descripcion" msprop:Generator_ColumnVarNameInTable="columnDescripcion" msprop:Generator_ColumnPropNameInRow="Descripcion" msprop:Generator_ColumnPropNameInTable="DescripcionColumn" msprop:Generator_UserColumnName="Descripcion" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MinisteriosPublicosId" msprop:Generator_ColumnVarNameInTable="columnMinisteriosPublicosId" msprop:Generator_ColumnPropNameInRow="MinisteriosPublicosId" msprop:Generator_ColumnPropNameInTable="MinisteriosPublicosIdColumn" msprop:Generator_UserColumnName="MinisteriosPublicosId" type="xs:int" />
+              <xs:element name="NombreMinisterio" msprop:Generator_ColumnVarNameInTable="columnNombreMinisterio" msprop:Generator_ColumnPropNameInRow="NombreMinisterio" msprop:Generator_ColumnPropNameInTable="NombreMinisterioColumn" msprop:Generator_UserColumnName="NombreMinisterio" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AutoridadId" msprop:Generator_ColumnVarNameInTable="columnAutoridadId" msprop:Generator_ColumnPropNameInRow="AutoridadId" msprop:Generator_ColumnPropNameInTable="AutoridadIdColumn" msprop:Generator_UserColumnName="AutoridadId" type="xs:int" minOccurs="0" />
+              <xs:element name="NombreAutoridad" msprop:Generator_ColumnVarNameInTable="columnNombreAutoridad" msprop:Generator_ColumnPropNameInRow="NombreAutoridad" msprop:Generator_ColumnPropNameInTable="NombreAutoridadColumn" msprop:Generator_UserColumnName="NombreAutoridad" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DetalleUsuarioId" msprop:Generator_ColumnVarNameInTable="columnDetalleUsuarioId" msprop:Generator_ColumnPropNameInRow="DetalleUsuarioId" msprop:Generator_ColumnPropNameInTable="DetalleUsuarioIdColumn" msprop:Generator_UserColumnName="DetalleUsuarioId" type="xs:int" />
+              <xs:element name="NombreUsuario" msprop:Generator_ColumnVarNameInTable="columnNombreUsuario" msprop:Generator_ColumnPropNameInRow="NombreUsuario" msprop:Generator_ColumnPropNameInTable="NombreUsuarioColumn" msprop:Generator_UserColumnName="NombreUsuario" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ApellidoMaternoUsuario" msprop:Generator_ColumnVarNameInTable="columnApellidoMaternoUsuario" msprop:Generator_ColumnPropNameInRow="ApellidoMaternoUsuario" msprop:Generator_ColumnPropNameInTable="ApellidoMaternoUsuarioColumn" msprop:Generator_UserColumnName="ApellidoMaternoUsuario" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ApellidoPaternoUsuario" msprop:Generator_ColumnVarNameInTable="columnApellidoPaternoUsuario" msprop:Generator_ColumnPropNameInRow="ApellidoPaternoUsuario" msprop:Generator_ColumnPropNameInTable="ApellidoPaternoUsuarioColumn" msprop:Generator_UserColumnName="ApellidoPaternoUsuario" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NumeroDeEmpleadoUsuario" msprop:Generator_ColumnVarNameInTable="columnNumeroDeEmpleadoUsuario" msprop:Generator_ColumnPropNameInRow="NumeroDeEmpleadoUsuario" msprop:Generator_ColumnPropNameInTable="NumeroDeEmpleadoUsuarioColumn" msprop:Generator_UserColumnName="NumeroDeEmpleadoUsuario" type="xs:int" minOccurs="0" />
+              <xs:element name="AreaIdUsuario" msprop:Generator_ColumnVarNameInTable="columnAreaIdUsuario" msprop:Generator_ColumnPropNameInRow="AreaIdUsuario" msprop:Generator_ColumnPropNameInTable="AreaIdUsuarioColumn" msprop:Generator_UserColumnName="AreaIdUsuario" type="xs:int" minOccurs="0" />
+              <xs:element name="NombreAreaUsuario" msprop:Generator_ColumnVarNameInTable="columnNombreAreaUsuario" msprop:Generator_ColumnPropNameInRow="NombreAreaUsuario" msprop:Generator_ColumnPropNameInTable="NombreAreaUsuarioColumn" msprop:Generator_UserColumnName="NombreAreaUsuario" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:EgresosReport" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

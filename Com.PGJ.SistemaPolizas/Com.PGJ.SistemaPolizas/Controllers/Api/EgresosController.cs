@@ -2,6 +2,7 @@
 using Com.PGJ.SistemaPolizas.Service;
 using Com.PGJ.SistemaPolizas.Service.Dto;
 using Microsoft.AspNet.Identity;
+using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
 using PagedList;
 using System;
@@ -45,7 +46,6 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             return response;
         }
 
-        
         [Route()]
         [HttpPost]
         public IHttpActionResult Save(EgresoDto dto)
@@ -77,6 +77,34 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
         {
             decimal total = service.GetTotalEgresos(anio);
             return Ok(total);
+        }
+
+        [Route("reporte/{anio}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public HttpResponseMessage Search(string anio)
+        {
+            Reports.ReportsDataSetTableAdapters.EgresosReportTableAdapter ss = new Reports.ReportsDataSetTableAdapters.EgresosReportTableAdapter();
+            List<Reports.ReportsDataSet.EgresosReportRow> list = ss.GetDataByAnio(anio).ToList();
+            string urlArchivo = System.Web.Hosting.HostingEnvironment.MapPath("~/Reports/EgresosReport.rdlc");
+            ReportViewer reporte = new ReportViewer();
+            reporte.Reset();
+            reporte.LocalReport.ReportPath = urlArchivo;
+            reporte.LocalReport.DataSources.Add(new ReportDataSource("EgresosDataSet", list));
+            reporte.LocalReport.SetParameters(new ReportParameter("AnioEgresos", anio));
+            reporte.LocalReport.Refresh();
+
+            string fileName = "egresos" + anio + ".pdf";
+            byte[] file = reporte.LocalReport.Render("PDF");
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(file.ToArray());
+            result.Content.Headers.Add("x-filename", fileName);
+            result.Content.Headers.Add("access-control-expose-headers", new[] { "x-filename" });
+            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentDisposition.FileName = fileName;
+            result.StatusCode = HttpStatusCode.OK;
+            return result;
         }
     }
 }
