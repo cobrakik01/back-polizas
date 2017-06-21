@@ -11,10 +11,21 @@ namespace Com.PGJ.SistemaPolizas.Service.Dto
     public class EgresoDto
     {
         public int Id { get; set; }
-        public DateTime FechaDeEgreso { get; set; }
-        public decimal Cantidad { get; set; }
+        public DateTime? FechaDeEgreso { get; set; }
+        public decimal? Cantidad { get; set; }
         public int DetalleUsuarioId { get; set; }
         public string Descripcion { get; set; }
+        public string StrFechaDeEgreso
+        {
+            set
+            {
+                DateTime _date;
+                if (DateTime.TryParse(value, out _date))
+                {
+                    FechaDeEgreso = _date;
+                }
+            }
+        }
 
         public DetalleUsuarioDto DetallesUsuarios { get; set; }
         public MinisterioPublicoDto MinisteriosPublicos { get; set; }

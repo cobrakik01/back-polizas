@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Com.PGJ.SistemaPolizas.Service.Dto;
 using Com.PGJ.SistemaPolizas.Data.Model;
+using System.Linq.Expressions;
 
 namespace Com.PGJ.SistemaPolizas.Service
 {
@@ -156,107 +157,66 @@ namespace Com.PGJ.SistemaPolizas.Service
                         },
                         FechaDeEgreso = e.FechaDeEgreso
                     });
-                /*
-                if (filterObject != null && filterObject.Egreso != null)
+                if (filterObject != null)
                 {
-                    // poliza = poliza.Where(e => e.Nombre.Contains("") || e.ApellidoMaterno.Contains("") || e.ApellidoPaterno.Contains(""));
-                    query = query.Where(e => e.Descripcion.ToLower().Contains(filterObject.Egreso.Descripcion.ToLower()));
-                    if (filterObject.AveriguacionPrevia != null)
-                    {
-                        query = query.Where(e => e.AveriguacionPrevia.Contains(filterObject.AveriguacionPrevia));
-                    }
-                    if (filterObject.Afianzado != null)
-                    {
-                        if (filterObject.Afianzado.Nombre != null)
-                        {
-                            query = query.Where(e =>
-                                e.Afianzado.ApellidoPaterno.Contains(filterObject.Afianzado.Nombre)
-                                || e.Afianzado.ApellidoMaterno.Contains(filterObject.Afianzado.Nombre)
-                                || e.Afianzado.Nombre.Contains(filterObject.Afianzado.Nombre));
-                        }
-                    }
-                    if (filterObject.Afianzadora != null)
-                    {
-                        if (filterObject.Afianzadora.Nombre != null)
-                        {
-                            query = query.Where(e => e.Afianzadora.Nombre.Contains(filterObject.Afianzadora.Nombre));
-                        }
-                    }
-                    if (filterObject.TotalIngresos > 0)
-                    {
-                        query = query.Where(e => e.TotalIngresos >= filterObject.TotalIngresos);
-                    }
                     if (filterObject.Cantidad > 0)
                     {
                         query = query.Where(e => e.Cantidad >= filterObject.Cantidad);
+                    }
+                    if (!string.IsNullOrEmpty(filterObject.Descripcion))
+                    {
+                        query = query.Where(e => e.Descripcion.ToLower().Contains(filterObject.Descripcion.ToLower()));
+                    }
+                    if (filterObject.FechaDeEgreso != null)
+                    {
+                        query = query.Where(e =>
+                           e.FechaDeEgreso.Day == filterObject.FechaDeEgreso.Value.Day
+                        && e.FechaDeEgreso.Month == filterObject.FechaDeEgreso.Value.Month
+                        && e.FechaDeEgreso.Year == filterObject.FechaDeEgreso.Value.Year);
+                    }
+                    MinisterioPublicoDto ministerio = filterObject.MinisteriosPublicos;
+                    if (ministerio != null)
+                    {
+                        if (!string.IsNullOrEmpty(ministerio.Nombre))
+                        {
+                            query = query.Where(e => e.MinisteriosPublicos != null && !string.IsNullOrEmpty(e.MinisteriosPublicos.Nombre) && e.MinisteriosPublicos.Nombre.ToLower().Contains(ministerio.Nombre.ToLower()));
+                        }
+                        AutoridadDto autoridad = ministerio.Autoridad;
+                        if (autoridad != null)
+                        {
+                            if (!string.IsNullOrEmpty(autoridad.Nombre))
+                            {
+                                query = query.Where(e =>
+                                   e.MinisteriosPublicos != null
+                                && e.MinisteriosPublicos.Autoridad != null
+                                && !string.IsNullOrEmpty(e.MinisteriosPublicos.Autoridad.Nombre)
+                                && e.MinisteriosPublicos.Autoridad.Nombre.ToLower().Contains(autoridad.Nombre.ToLower()));
+                            }
+                        }
                     }
                 }
 
                 switch (sortingField)
                 {
-                    case "AveriguacionPrevia":
+                    case "Descripcion":
                     default:
-                        if (sorting == "asc")
-                        {
-                            query = query.OrderBy(e => e.AveriguacionPrevia);
-                        }
-                        else
-                        {
-                            query = query.OrderByDescending(e => e.AveriguacionPrevia);
-                        }
-                        break;
-                    case "Afianzado.Nombre":
-                        if (sorting == "asc")
-                        {
-                            query = query.OrderBy(e => e.Afianzado.Nombre);
-                        }
-                        else
-                        {
-                            query = query.OrderByDescending(e => e.Afianzado.Nombre);
-                        }
-                        break;
-                    case "Afianzadora.Nombre":
-                        if (sorting == "asc")
-                        {
-                            query = query.OrderBy(e => e.Afianzadora.Nombre);
-                        }
-                        else
-                        {
-                            query = query.OrderByDescending(e => e.Afianzadora.Nombre);
-                        }
-                        break;
-                    case "FechaDeAlta":
-                        if (sorting == "asc")
-                        {
-                            query = query.OrderBy(e => e.FechaDeAlta);
-                        }
-                        else
-                        {
-                            query = query.OrderByDescending(e => e.FechaDeAlta);
-                        }
+                        query = OrderBy(query, sorting, e => e.Descripcion);
                         break;
                     case "Cantidad":
-                        if (sorting == "asc")
-                        {
-                            query = query.OrderBy(e => e.Cantidad);
-                        }
-                        else
-                        {
-                            query = query.OrderByDescending(e => e.Cantidad);
-                        }
+                        query = OrderBy(query, sorting, e => e.Cantidad);
                         break;
-                    case "TotalIngresos":
-                        if (sorting == "asc")
-                        {
-                            query = query.OrderBy(e => e.TotalIngresos);
-                        }
-                        else
-                        {
-                            query = query.OrderByDescending(e => e.TotalIngresos);
-                        }
+                    case "FechaDeEgreso":
+                        query = OrderBy(query, sorting, e => e.FechaDeEgreso);
                         break;
+                    case "MinisteriosPublicos.Nombre":
+                        query = OrderBy(query, sorting, e => e.MinisteriosPublicos.Nombre);
+                        break;
+                    case "MinisteriosPublicos.Autoridad.Nombre":
+                        query = OrderBy(query, sorting, e => e.MinisteriosPublicos.Autoridad.Nombre);
+                        break;
+
                 }
-                */
+
                 List<EgresoDto> listModel = query.ToList()
                     .Select(e => new EgresoDto
                     {
@@ -277,6 +237,19 @@ namespace Com.PGJ.SistemaPolizas.Service
                     }).ToList();
                 return listModel;
             }
+        }
+
+        private IQueryable<TSource> OrderBy<TSource, TKey>(IQueryable<TSource> query, string sorting, Expression<Func<TSource, TKey>> keySelector)
+        {
+            if (sorting == "asc")
+            {
+                query = query.OrderBy(keySelector);
+            }
+            else
+            {
+                query = query.OrderByDescending(keySelector);
+            }
+            return query;
         }
 
         public List<EgresoDto> FindByFilter(string sorting = "asc", string filter = "")
