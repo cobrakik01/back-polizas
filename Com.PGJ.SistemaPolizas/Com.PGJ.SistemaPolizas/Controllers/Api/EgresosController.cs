@@ -81,7 +81,6 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
 
         [Route("reporte/{anio}")]
         [HttpGet]
-        [AllowAnonymous]
         public HttpResponseMessage Search(string anio)
         {
             Reports.ReportsDataSetTableAdapters.EgresosReportTableAdapter ss = new Reports.ReportsDataSetTableAdapters.EgresosReportTableAdapter();
