@@ -91,6 +91,11 @@ namespace Com.PGJ.SistemaPolizas.Controllers.Api
             reporte.LocalReport.ReportPath = urlArchivo;
             reporte.LocalReport.DataSources.Add(new ReportDataSource("EgresosDataSet", list));
             reporte.LocalReport.SetParameters(new ReportParameter("AnioEgresos", anio));
+            reporte.LocalReport.DisplayName = "egresos" + anio;
+            reporte.LocalReport.GetDefaultPageSettings().Margins.Bottom = 1;
+            reporte.LocalReport.GetDefaultPageSettings().Margins.Left = 1;
+            reporte.LocalReport.GetDefaultPageSettings().Margins.Right = 1;
+            reporte.LocalReport.GetDefaultPageSettings().Margins.Top = 1;
             reporte.LocalReport.Refresh();
 
             string fileName = "egresos" + anio + ".pdf";

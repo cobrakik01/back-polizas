@@ -9,16 +9,16 @@
               <Width>4.13181cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>5.66638cm</Width>
+              <Width>5.11138cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>6.53951cm</Width>
+              <Width>5.32243cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>5.27813cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.92875cm</Width>
+              <Width>4.82833cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -70,7 +70,6 @@
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>11pt</FontSize>
                                 <FontWeight>Normal</FontWeight>
                                 <TextDecoration>None</TextDecoration>
                                 <Color>#000000</Color>
@@ -109,7 +108,6 @@
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>11pt</FontSize>
                                 <FontWeight>Normal</FontWeight>
                                 <TextDecoration>None</TextDecoration>
                                 <Color>#000000</Color>
@@ -148,7 +146,6 @@
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>11pt</FontSize>
                                 <FontWeight>Normal</FontWeight>
                                 <TextDecoration>None</TextDecoration>
                                 <Color>#000000</Color>
@@ -187,7 +184,6 @@
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>11pt</FontSize>
                                 <FontWeight>Normal</FontWeight>
                                 <TextDecoration>None</TextDecoration>
                                 <Color>#000000</Color>
@@ -216,7 +212,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>2.04198cm</Height>
+              <Height>0.74552cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -404,8 +400,8 @@
         <DataSetName>EgresosDataSet</DataSetName>
         <Top>0.3937cm</Top>
         <Left>0.55245cm</Left>
-        <Height>2.60229cm</Height>
-        <Width>25.54459cm</Width>
+        <Height>1.30583cm</Height>
+        <Width>24.67208cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -413,10 +409,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2in</Height>
+    <Height>95.4257pt</Height>
     <Style />
   </Body>
-  <Width>11.30567in</Width>
+  <Width>739.75833pt</Width>
   <Page>
     <PageHeader>
       <Height>1.56104cm</Height>
@@ -486,7 +482,20 @@
       <Style>
         <Border>
           <Style>None</Style>
+          <Width>0.3pt</Width>
         </Border>
+        <TopBorder>
+          <Width>0.3pt</Width>
+        </TopBorder>
+        <BottomBorder>
+          <Width>0.3pt</Width>
+        </BottomBorder>
+        <LeftBorder>
+          <Width>0.5pt</Width>
+        </LeftBorder>
+        <RightBorder>
+          <Width>0.3pt</Width>
+        </RightBorder>
       </Style>
     </PageHeader>
     <PageHeight>29.7cm</PageHeight>
